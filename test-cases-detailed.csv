@@ -1,0 +1,126 @@
+S.No,Test Case ID,Test Case Name,Test Description,HTTP Method,API Endpoint / Path,Auth Required,Expected Status,Performance Threshold,Body Validation,Pass Criteria,Category
+1,TC_PUB_001,Homepage - Status Check,Verify homepage returns HTTP 200,GET,/,None,200,,,Response status is 200,Public Pages
+2,TC_PUB_002,Login page - Status Check,Verify login page returns HTTP 200,GET,/login,None,200,,,Response status is 200,Public Pages
+3,TC_PUB_003,Sign-in page - Status Check,Verify sign-in page returns HTTP 200,GET,/sign_in,None,200,,,Response status is 200,Public Pages
+4,TC_PUB_004,Register page - Status Check,Verify registration page returns HTTP 200,GET,/register,None,200,,,Response status is 200,Public Pages
+5,TC_PUB_005,Forgot password - Status Check,Verify forgot password page returns HTTP 200,GET,/users/password/new,None,200,,,Response status is 200,Public Pages
+6,TC_PUB_006,Confirm account page - Status Check,Verify account confirmation page returns HTTP 200,GET,/users/confirmation/new,None,200,,,Response status is 200,Public Pages
+7,TC_PUB_007,Terms - Status Check,Verify terms page returns HTTP 200,GET,/terms,None,200,,,Response status is 200,Public Pages
+8,TC_PUB_008,Accessibility statement - Status Check,Verify accessibility statement page returns HTTP 200,GET,/accessibility-statement,None,200,,,Response status is 200,Public Pages
+9,TC_PUB_009,Technical support - Status Check,Verify technical support page returns HTTP 200,GET,/technical_support,None,200,,,Response status is 200,Public Pages
+10,TC_PUB_010,Moderation policy - Status Check,Verify moderation policy page returns HTTP 200,GET,/moderation,None,200,,,Response status is 200,Public Pages
+11,TC_PUB_011,Sitemap XML - Status Check,Verify sitemap.xml returns HTTP 200,GET,/sitemap.xml,None,200,,,Response status is 200,Public Pages
+12,TC_PUB_012,Favicon - Status Check,Verify favicon.ico returns HTTP 200,GET,/favicon.ico,None,200,,,Response status is 200,Public Pages
+13,TC_PUB_013,Published project page - Status Check,Verify project page returns HTTP 200,GET,/{projectSlug},None,200,,,Response status is 200,Public Pages
+14,TC_PUB_014,Project documents - Status Check,Verify project documents page returns HTTP 200,GET,/{projectSlug}/documents,None,200,,,Response status is 200,Public Pages
+15,TC_PUB_015,Project FAQs - Status Check,Verify project FAQs page returns HTTP 200,GET,/{projectSlug}/faqs,None,200,,,Response status is 200,Public Pages
+16,TC_PUB_016,Project photos - Status Check,Verify project photos page returns HTTP 200,GET,/{projectSlug}/photos,None,200,,,Response status is 200,Public Pages
+17,TC_PUB_017,Project videos - Status Check,Verify project videos page returns HTTP 200,GET,/{projectSlug}/videos,None,200,,,Response status is 200,Public Pages
+18,TC_PART_001,Participant home - Status Check,Verify homepage loads for authenticated participant,GET,/,Participant,200,,,Response status is 200,Participant Endpoints
+19,TC_PART_002,Participant project page - Status Check,Verify project page loads for participant,GET,/{projectSlug},Participant,200,,,Response status is 200,Participant Endpoints
+20,TC_PART_003,Participant project documents - Status Check,Verify project documents load for participant,GET,/{projectSlug}/documents,Participant,200,,,Response status is 200,Participant Endpoints
+21,TC_PART_004,Participant project FAQs - Status Check,Verify project FAQs load for participant,GET,/{projectSlug}/faqs,Participant,200,,,Response status is 200,Participant Endpoints
+22,TC_PART_005,Session info - Status Check,Verify session info endpoint returns HTTP 200,GET,/session_info,Participant,200,,,Response status is 200,Participant Endpoints
+23,TC_PART_006,Token endpoint - Status Check,Verify token endpoint returns HTTP 200,GET,/token,Participant,200,,,Response status is 200,Participant Endpoints
+24,TC_API_001,API site info - Status Check,Verify site info API returns HTTP 200,GET,/api/v2/site,Site Admin,200,,,Response status is 200,API v2 (GET)
+25,TC_API_002,API settings - Status Check,Verify settings API returns HTTP 200,GET,/api/v2/settings,Site Admin,200,,,Response status is 200,API v2 (GET)
+26,TC_API_003,API features - Status Check,Verify features API returns HTTP 200,GET,/api/v2/features,Site Admin,200,,,Response status is 200,API v2 (GET)
+27,TC_API_004,API theme - Status Check,Verify theme API returns HTTP 200,GET,/api/v2/theme,Site Admin,200,,,Response status is 200,API v2 (GET)
+28,TC_API_005,API current user - Status Check,Verify current user API returns HTTP 200,GET,/api/v2/users/current,Site Admin,200,,,Response status is 200,API v2 (GET)
+29,TC_API_006,API projects - Status Check,Verify projects list API returns HTTP 200,GET,/api/v2/projects,Site Admin,200,,,Response status is 200,API v2 (GET)
+30,TC_API_007,API navigation links - Status Check,Verify navigation links API returns HTTP 200,GET,/api/v2/navigation_links,Site Admin,200,,,Response status is 200,API v2 (GET)
+31,TC_API_008,API layouts - Status Check,Verify layouts API returns HTTP 200,GET,/api/v2/layouts/selected,Site Admin,200,,,Response status is 200,API v2 (GET)
+32,TC_API_009,API home page revisions - Status Check,Verify home page revisions API returns HTTP 200,GET,/api/v2/home_page_revisions,Site Admin,200,,,Response status is 200,API v2 (GET)
+33,TC_API_010,API recommendations - Status Check,Verify recommendations API returns HTTP 200,GET,/api/v2/recommendations,Site Admin,200,,,Response status is 200,API v2 (GET)
+34,TC_API_011,API signup form questions - Status Check,Verify signup form questions API returns HTTP 200,GET,/api/v2/signup_form_questions,Site Admin,200,,,Response status is 200,API v2 (GET)
+35,TC_API_012,API intercom - Status Check,Verify intercom API returns HTTP 200,GET,/api/v2/intercom,Site Admin,200,,,Response status is 200,API v2 (GET)
+36,TC_API_013,API user subscriptions - Status Check,Verify user subscriptions API returns HTTP 200,GET,/api/v2/user_subscriptions,Site Admin,200,,,Response status is 200,API v2 (GET)
+37,TC_API_014,API reporting dashboard filters - Status Check,Verify reporting dashboard filters API returns HTTP 200,GET,/api/v2/reporting/dashboard_filters,Site Admin,200,,,Response status is 200,API v2 (GET)
+38,TC_API_015,API reporting contribution tags - Status Check,Verify contribution tags reporting API returns HTTP 200,GET,/api/v2/reporting/dashboards/contribution_tags,Site Admin,200,,,Response status is 200,API v2 (GET)
+39,TC_API_016,API reporting contributions location - Status Check,Verify contributions location reporting API returns HTTP 200,GET,/api/v2/reporting/dashboards/contributions_location,Site Admin,200,,,Response status is 200,API v2 (GET)
+40,TC_API_017,API reporting top performing tools - Status Check,Verify top performing tools reporting API returns HTTP 200,GET,/api/v2/reporting/dashboards/top_performing_tools,Site Admin,200,,,Response status is 200,API v2 (GET)
+41,TC_ADM_001,Admin dashboard - Status Check,Verify admin dashboard loads with HTTP 200,GET,/adm,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+42,TC_ADM_002,Admin dashboard page - Status Check,Verify admin dashboard page loads with HTTP 200,GET,/adm/dashboard,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+43,TC_ADM_003,Admin projects - Status Check,Verify admin projects list loads with HTTP 200,GET,/adm/projects,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+44,TC_ADM_004,Admin archived projects - Status Check,Verify admin archived projects loads with HTTP 200,GET,/adm/projects/archived,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+45,TC_ADM_005,Admin draft projects - Status Check,Verify admin draft projects loads with HTTP 200,GET,/adm/projects/draft,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+46,TC_ADM_006,Admin users - Status Check,Verify admin users page loads with HTTP 200,GET,/adm/users,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+47,TC_ADM_007,Admin participants - Status Check,Verify admin participants page loads with HTTP 200,GET,/adm/participants,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+48,TC_ADM_008,Admin registered participants - Status Check,Verify admin registered participants loads with HTTP 200,GET,/adm/participants/registered,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+49,TC_ADM_009,Admin pending participants - Status Check,Verify admin pending participants loads with HTTP 200,GET,/adm/participants/pending,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+50,TC_ADM_010,Admin settings - Status Check,Verify admin settings page loads with HTTP 200,GET,/adm/settings,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+51,TC_ADM_011,Admin reports - Status Check,Verify admin reports page loads with HTTP 200,GET,/adm/reports,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+52,TC_ADM_012,Admin reports: registrations - Status Check,Verify admin registrations report loads with HTTP 200,GET,/adm/reports/registrations,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+53,TC_ADM_013,Admin reports: contributions - Status Check,Verify admin contributions report loads with HTTP 200,GET,/adm/reports/contributions,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+54,TC_ADM_014,Admin reports: visitors - Status Check,Verify admin visitors report loads with HTTP 200,GET,/adm/reports/visitors,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+55,TC_ADM_015,Admin reports: engagement - Status Check,Verify admin engagement report loads with HTTP 200,GET,/adm/reports/engagement,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+56,TC_ADM_016,Admin moderation - Status Check,Verify admin moderation page loads with HTTP 200,GET,/adm/moderation,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+57,TC_ADM_017,Admin moderation: comments - Status Check,Verify admin moderation comments loads with HTTP 200,GET,/adm/moderation/comments,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+58,TC_ADM_018,Admin moderation: submissions - Status Check,Verify admin moderation submissions loads with HTTP 200,GET,/adm/moderation/submissions,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+59,TC_ADM_019,Admin engagement - Status Check,Verify admin engagement page loads with HTTP 200,GET,/adm/engagement,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+60,TC_ADM_020,Admin analytics - Status Check,Verify admin analytics page loads with HTTP 200,GET,/adm/analytics,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+61,TC_ADM_021,Admin analytics: visitors - Status Check,Verify admin analytics visitors loads with HTTP 200,GET,/adm/analytics/visitors,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+62,TC_ADM_022,Admin analytics: engagement - Status Check,Verify admin analytics engagement loads with HTTP 200,GET,/adm/analytics/engagement,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+63,TC_ADM_023,Admin analytics: demographics - Status Check,Verify admin analytics demographics loads with HTTP 200,GET,/adm/analytics/demographics,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+64,TC_ADM_024,Admin integrations - Status Check,Verify admin integrations page loads with HTTP 200,GET,/adm/integrations,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+65,TC_ADM_025,Admin emails - Status Check,Verify admin emails page loads with HTTP 200,GET,/adm/emails,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+66,TC_ADM_026,Admin email templates - Status Check,Verify admin email templates loads with HTTP 200,GET,/adm/emails/templates,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+67,TC_ADM_027,Admin sent emails - Status Check,Verify admin sent emails loads with HTTP 200,GET,/adm/emails/sent,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+68,TC_ADM_028,Admin themes - Status Check,Verify admin themes page loads with HTTP 200,GET,/adm/themes,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+69,TC_ADM_029,Admin permissions - Status Check,Verify admin permissions page loads with HTTP 200,GET,/adm/permissions,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+70,TC_ADM_030,Admin activity - Status Check,Verify admin activity page loads with HTTP 200,GET,/adm/activity,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+71,TC_ADM_031,Admin site settings - Status Check,Verify admin site settings loads with HTTP 200,GET,/adm/site,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+72,TC_ADM_032,Admin site config - Status Check,Verify admin site config loads with HTTP 200,GET,/adm/site/settings,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+73,TC_ADM_033,Admin site navigation - Status Check,Verify admin site navigation loads with HTTP 200,GET,/adm/site/navigation,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+74,TC_ADM_034,Admin site custom pages - Status Check,Verify admin custom pages loads with HTTP 200,GET,/adm/site/custom_pages,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+75,TC_ADM_035,Admin site SSO - Status Check,Verify admin SSO page loads with HTTP 200,GET,/adm/site/sso,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+76,TC_ADM_036,Admin site API keys - Status Check,Verify admin API keys page loads with HTTP 200,GET,/adm/site/api_keys,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+77,TC_ADM_037,Admin site webhooks - Status Check,Verify admin webhooks page loads with HTTP 200,GET,/adm/site/webhooks,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+78,TC_ADM_038,Admin site custom domain - Status Check,Verify admin custom domain page loads with HTTP 200,GET,/adm/site/custom_domain,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+79,TC_ADM_039,Admin site custom CSS - Status Check,Verify admin custom CSS page loads with HTTP 200,GET,/adm/site/custom_css,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+80,TC_ADM_040,Admin branding - Status Check,Verify admin branding page loads with HTTP 200,GET,/adm/branding,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+81,TC_ADM_041,Admin project detail - Status Check,Verify admin project detail page loads with HTTP 200,GET,/adm/projects/{projectSlug},Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+82,TC_ADM_042,Admin project settings - Status Check,Verify admin project settings page loads with HTTP 200,GET,/adm/projects/{projectSlug}/settings,Site Admin,200,,,Response status is 200,Admin Pages (New PFE)
+83,TC_LEG_001,Legacy project admin - Status Check (no redirect),Verify legacy project admin loads without redirect,GET,/admin/projects/{projectSlug},Site Admin,200,,,"Response status is 200, no redirect followed",Legacy Admin
+84,TC_LEG_002,Legacy site settings - Status Check,Verify legacy site settings loads with HTTP 200,GET,/admin/sites/settings,Site Admin,200,,,Response status is 200,Legacy Admin
+85,TC_LEG_003,Legacy site editor (home page) - Status Check,Verify legacy home page editor loads with HTTP 200,GET,/admin/sites/editors/home-page,Site Admin,200,,,Response status is 200,Legacy Admin
+86,TC_LEG_004,Legacy administrators - Status Check,Verify legacy administrators page loads with HTTP 200,GET,/admin/people/administrators,Site Admin,200,,,Response status is 200,Legacy Admin
+87,TC_LEG_005,Legacy newsletters - Status Check,Verify legacy newsletters page loads with HTTP 200,GET,/admin/newsletters,Site Admin,200,,,Response status is 200,Legacy Admin
+88,TC_LEG_006,Legacy marketplace - Status Check,Verify legacy marketplace page loads with HTTP 200,GET,/admin/marketplace,Site Admin,200,,,Response status is 200,Legacy Admin
+89,TC_LEG_007,Legacy site hubs - Status Check,Verify legacy site hubs page loads with HTTP 200,GET,/admin/site_hubs,Site Admin,200,,,Response status is 200,Legacy Admin
+90,TC_LEG_008,Admin heartbeat - Status Check,Verify admin heartbeat API returns HTTP 200,GET,/admin/api/auth/heartbeat,Site Admin,200,,,Response status is 200,Legacy Admin
+91,TC_DATA_001,Admin data exports - Status Check,Verify admin data exports page loads with HTTP 200,GET,/adm/data_exports,Site Admin,200,,,Response status is 200,Admin Data & Audit
+92,TC_DATA_002,Admin imports - Status Check,Verify admin imports page loads with HTTP 200,GET,/adm/imports,Site Admin,200,,,Response status is 200,Admin Data & Audit
+93,TC_DATA_003,Admin audit log - Status Check,Verify admin audit log page loads with HTTP 200,GET,/adm/audit_log,Site Admin,200,,,Response status is 200,Admin Data & Audit
+94,TC_PUT_001,PUT user profile - Write Validation,Verify PUT to user profile accepts empty body and returns 200,PUT,/api/v2/users/current,Site Admin,200,,,"Status is 200; route accepts PUT with empty JSON body",Write APIs (PUT)
+95,TC_PUT_002,PUT site config - Write Validation,Verify PUT to site config accepts empty body and returns 200,PUT,/api/v2/site,Site Admin,200,,,"Status is 200; route accepts PUT with empty JSON body",Write APIs (PUT)
+96,TC_PUT_003,PUT site settings - Write Validation,Verify PUT to site settings accepts empty body and returns 200,PUT,/api/v2/settings,Site Admin,200,,,"Status is 200; route accepts PUT with empty JSON body",Write APIs (PUT)
+97,TC_PUT_004,PUT theme - Write Validation,Verify PUT to theme accepts empty body and returns 200,PUT,/api/v2/theme,Site Admin,200,,,"Status is 200; route accepts PUT with empty JSON body",Write APIs (PUT)
+98,TC_PUT_005,PUT project - Write Validation,Verify PUT to project endpoint accepts empty body and returns 200,PUT,/api/v2/projects/47804,Site Admin,200,,,"Status is 200; route accepts PUT with empty JSON body",Write APIs (PUT)
+99,TC_PUT_006,PUT project publish - Write Validation,Verify PUT to project publish route exists and does not return 500,PUT,/api/v2/projects/47804/publish,Site Admin,200 | 422,,,"Status is 200 or 422; route exists and handles request",Write APIs (PUT)
+100,TC_PUT_007,PUT reporting filters - Write Validation,Verify PUT to reporting filters route exists and does not return 500,PUT,/api/v2/reporting/dashboard_filters,Site Admin,200 | 422,,,"Status is 200 or 422; route exists and handles request",Write APIs (PUT)
+101,TC_PATCH_001,PATCH user profile - Write Validation,Verify PATCH to user profile accepts empty body and returns 200,PATCH,/api/v2/users/current,Site Admin,200,,,"Status is 200; route accepts PATCH with empty JSON body",Write APIs (PATCH)
+102,TC_PATCH_002,PATCH site config - Write Validation,Verify PATCH to site config accepts empty body and returns 200,PATCH,/api/v2/site,Site Admin,200,,,"Status is 200; route accepts PATCH with empty JSON body",Write APIs (PATCH)
+103,TC_PATCH_003,PATCH site settings - Write Validation,Verify PATCH to site settings accepts empty body and returns 200,PATCH,/api/v2/settings,Site Admin,200,,,"Status is 200; route accepts PATCH with empty JSON body",Write APIs (PATCH)
+104,TC_PATCH_004,PATCH theme - Write Validation,Verify PATCH to theme accepts empty body and returns 200,PATCH,/api/v2/theme,Site Admin,200,,,"Status is 200; route accepts PATCH with empty JSON body",Write APIs (PATCH)
+105,TC_PATCH_005,PATCH project - Write Validation,Verify PATCH to project endpoint accepts empty body and returns 200,PATCH,/api/v2/projects/47804,Site Admin,200,,,"Status is 200; route accepts PATCH with empty JSON body",Write APIs (PATCH)
+106,TC_PATCH_006,PATCH heartbeat - Write Validation,Verify PATCH to heartbeat endpoint returns 204,PATCH,/admin/api/auth/heartbeat,Site Admin,204,,,"Status is 204; route accepts PATCH method",Write APIs (PATCH)
+107,TC_POST_001,POST login API - Route Validation,Verify login POST route exists and rejects invalid creds with 401/422,POST,/users/sign_in,None,200 | 401 | 404 | 422,,,"Status is not 500; route rejects empty credentials properly",Write APIs (POST)
+108,TC_POST_002,POST password reset - Route Validation,Verify password reset POST route exists and returns 422 for invalid email,POST,/users/password,None,200 | 422,,,"Status is not 500; route handles invalid payload",Write APIs (POST)
+109,TC_POST_003,POST registration - Route Validation,Verify registration POST route exists and returns 422 for empty user,POST,/users,None,200 | 422,,,"Status is not 500; route handles invalid payload",Write APIs (POST)
+110,TC_DEL_001,DELETE session (logout route) - Route Validation,Verify DELETE to logout route exists and does not return 500,DELETE,/users/sign_out,Site Admin,200 | 204 | 302 | 404 | 405,,,"Status is not 500; route is registered and responds",Write APIs (DELETE)
+111,TC_PERF_001,Homepage - Performance Check,Verify homepage responds within 5000ms,GET,/,None,200,< 5000ms,,Response time is under 5000ms,Performance Checks
+112,TC_PERF_002,Login page - Performance Check,Verify login page responds within 5000ms,GET,/login,None,200,< 5000ms,,Response time is under 5000ms,Performance Checks
+113,TC_PERF_003,API projects - Performance Check,Verify projects API responds within 10000ms,GET,/api/v2/projects,Site Admin,200,< 10000ms,,Response time is under 10000ms,Performance Checks
+114,TC_PERF_004,API site - Performance Check,Verify site API responds within 5000ms,GET,/api/v2/site,Site Admin,200,< 5000ms,,Response time is under 5000ms,Performance Checks
+115,TC_PERF_005,Admin dashboard - Performance Check,Verify admin dashboard responds within 5000ms,GET,/adm,Site Admin,200,< 5000ms,,Response time is under 5000ms,Performance Checks
+116,TC_PERF_006,Heartbeat - Performance Check,Verify heartbeat API responds within 3000ms,GET,/admin/api/auth/heartbeat,Site Admin,200,< 3000ms,,Response time is under 3000ms,Performance Checks
+117,TC_PERF_007,Favicon - Performance Check,Verify favicon loads within 3000ms,GET,/favicon.ico,None,200,< 3000ms,,Response time is under 3000ms,Performance Checks
+118,TC_BODY_001,API site - Body Validation,Verify site API response contains "name" key,GET,/api/v2/site,Site Admin,200,,body contains "name","Response body includes ""name"" key",Body Validation
+119,TC_BODY_002,API current user - Body Validation,Verify current user API response contains "email" key,GET,/api/v2/users/current,Site Admin,200,,body contains "email","Response body includes ""email"" key",Body Validation
+120,TC_BODY_003,API features - Body Validation,Verify features API response contains "features" key,GET,/api/v2/features,Site Admin,200,,body contains "features","Response body includes ""features"" key",Body Validation
+121,TC_BODY_004,API theme - Body Validation,Verify theme API response contains "color" in body,GET,/api/v2/theme,Site Admin,200,,body contains "color","Response body includes ""color"" string",Body Validation
+122,TC_BODY_005,API projects - Body Validation,Verify projects API response contains "projects" key,GET,/api/v2/projects,Site Admin,200,,body contains "projects","Response body includes ""projects"" key",Body Validation
+123,TC_BODY_006,Homepage - Body Validation,Verify homepage response contains valid HTML structure,GET,/,None,200,,body contains "<html","Response body includes ""<html"" tag",Body Validation
+124,TC_BODY_007,Login page - Body Validation,Verify login page contains a password field,GET,/login,None,200,,body contains "password","Response body includes ""password"" reference",Body Validation
+125,TC_BODY_008,Sitemap XML - Body Validation,Verify sitemap.xml contains valid XML declaration,GET,/sitemap.xml,None,200,,body contains "<?xml","Response body starts with ""<?xml"" declaration",Body Validation

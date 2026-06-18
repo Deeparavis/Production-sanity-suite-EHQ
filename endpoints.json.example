@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Homepage",
+    "path": "/",
+    "auth": "none"
+  },
+  {
+    "name": "Custom API route",
+    "path": "/api/v1/status",
+    "auth": "none",
+    "expectedStatus": 200
+  },
+  {
+    "name": "Admin-only report",
+    "path": "/admin/reports",
+    "auth": "siteAdmin",
+    "noRedirect": true
+  }
+]

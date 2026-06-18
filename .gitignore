@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.env.preprod
+test-results/
+playwright-report/
+run-history/
+storage-state.json
+*.log

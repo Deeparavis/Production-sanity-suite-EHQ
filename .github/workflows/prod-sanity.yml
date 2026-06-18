@@ -1,0 +1,54 @@
+name: Production Sanity
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prod-sanity:
+    name: EHQ production sanity
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run production sanity suite
+        env:
+          CI: true
+          EHQ_PROD_SITE_URL: ${{ secrets.EHQ_PROD_SITE_URL }}
+          EHQ_PROD_SITE_DOMAIN: ${{ secrets.EHQ_PROD_SITE_DOMAIN }}
+          PROD_PARTICIPANT_USERNAME: ${{ secrets.PROD_PARTICIPANT_USERNAME }}
+          PROD_PARTICIPANT_PASSWORD: ${{ secrets.PROD_PARTICIPANT_PASSWORD }}
+          PROD_SITEADMIN_USERNAME: ${{ secrets.PROD_SITEADMIN_USERNAME }}
+          PROD_SITEADMIN_PASSWORD: ${{ secrets.PROD_SITEADMIN_PASSWORD }}
+          PROD_PROJECT_SLUG: ${{ secrets.PROD_PROJECT_SLUG }}
+        run: npm run test:sanity
+
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 7

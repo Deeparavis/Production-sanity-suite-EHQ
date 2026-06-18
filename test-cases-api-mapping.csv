@@ -1,0 +1,126 @@
+S.No,Test Case Name,HTTP Method,API Endpoint / Path,Auth Required,Expected Status,Performance Threshold,Body Validation,Category
+1,Homepage,GET,/,None,200,,,Public Pages
+2,Login page,GET,/login,None,200,,,Public Pages
+3,Sign-in page,GET,/sign_in,None,200,,,Public Pages
+4,Register page,GET,/register,None,200,,,Public Pages
+5,Forgot password,GET,/users/password/new,None,200,,,Public Pages
+6,Confirm account page,GET,/users/confirmation/new,None,200,,,Public Pages
+7,Terms,GET,/terms,None,200,,,Public Pages
+8,Accessibility statement,GET,/accessibility-statement,None,200,,,Public Pages
+9,Technical support,GET,/technical_support,None,200,,,Public Pages
+10,Moderation policy,GET,/moderation,None,200,,,Public Pages
+11,Sitemap XML,GET,/sitemap.xml,None,200,,,Public Pages
+12,Favicon,GET,/favicon.ico,None,200,,,Public Pages
+13,Published project page,GET,/{projectSlug},None,200,,,Public Pages
+14,Project documents,GET,/{projectSlug}/documents,None,200,,,Public Pages
+15,Project FAQs,GET,/{projectSlug}/faqs,None,200,,,Public Pages
+16,Project photos,GET,/{projectSlug}/photos,None,200,,,Public Pages
+17,Project videos,GET,/{projectSlug}/videos,None,200,,,Public Pages
+18,Participant home,GET,/,Participant,200,,,Participant Endpoints
+19,Participant project page,GET,/{projectSlug},Participant,200,,,Participant Endpoints
+20,Participant project documents,GET,/{projectSlug}/documents,Participant,200,,,Participant Endpoints
+21,Participant project FAQs,GET,/{projectSlug}/faqs,Participant,200,,,Participant Endpoints
+22,Session info,GET,/session_info,Participant,200,,,Participant Endpoints
+23,Token endpoint,GET,/token,Participant,200,,,Participant Endpoints
+24,API site info,GET,/api/v2/site,Site Admin,200,,,API v2
+25,API settings,GET,/api/v2/settings,Site Admin,200,,,API v2
+26,API features,GET,/api/v2/features,Site Admin,200,,,API v2
+27,API theme,GET,/api/v2/theme,Site Admin,200,,,API v2
+28,API current user,GET,/api/v2/users/current,Site Admin,200,,,API v2
+29,API projects,GET,/api/v2/projects,Site Admin,200,,,API v2
+30,API navigation links,GET,/api/v2/navigation_links,Site Admin,200,,,API v2
+31,API layouts,GET,/api/v2/layouts/selected,Site Admin,200,,,API v2
+32,API home page revisions,GET,/api/v2/home_page_revisions,Site Admin,200,,,API v2
+33,API recommendations,GET,/api/v2/recommendations,Site Admin,200,,,API v2
+34,API signup form questions,GET,/api/v2/signup_form_questions,Site Admin,200,,,API v2
+35,API intercom,GET,/api/v2/intercom,Site Admin,200,,,API v2
+36,API user subscriptions,GET,/api/v2/user_subscriptions,Site Admin,200,,,API v2
+37,API reporting dashboard filters,GET,/api/v2/reporting/dashboard_filters,Site Admin,200,,,API v2
+38,API reporting contribution tags,GET,/api/v2/reporting/dashboards/contribution_tags,Site Admin,200,,,API v2
+39,API reporting contributions location,GET,/api/v2/reporting/dashboards/contributions_location,Site Admin,200,,,API v2
+40,API reporting top performing tools,GET,/api/v2/reporting/dashboards/top_performing_tools,Site Admin,200,,,API v2
+41,Admin dashboard,GET,/adm,Site Admin,200,,,Admin Pages (New PFE)
+42,Admin dashboard page,GET,/adm/dashboard,Site Admin,200,,,Admin Pages (New PFE)
+43,Admin projects,GET,/adm/projects,Site Admin,200,,,Admin Pages (New PFE)
+44,Admin archived projects,GET,/adm/projects/archived,Site Admin,200,,,Admin Pages (New PFE)
+45,Admin draft projects,GET,/adm/projects/draft,Site Admin,200,,,Admin Pages (New PFE)
+46,Admin users,GET,/adm/users,Site Admin,200,,,Admin Pages (New PFE)
+47,Admin participants,GET,/adm/participants,Site Admin,200,,,Admin Pages (New PFE)
+48,Admin registered participants,GET,/adm/participants/registered,Site Admin,200,,,Admin Pages (New PFE)
+49,Admin pending participants,GET,/adm/participants/pending,Site Admin,200,,,Admin Pages (New PFE)
+50,Admin settings,GET,/adm/settings,Site Admin,200,,,Admin Pages (New PFE)
+51,Admin reports,GET,/adm/reports,Site Admin,200,,,Admin Pages (New PFE)
+52,Admin reports: registrations,GET,/adm/reports/registrations,Site Admin,200,,,Admin Pages (New PFE)
+53,Admin reports: contributions,GET,/adm/reports/contributions,Site Admin,200,,,Admin Pages (New PFE)
+54,Admin reports: visitors,GET,/adm/reports/visitors,Site Admin,200,,,Admin Pages (New PFE)
+55,Admin reports: engagement,GET,/adm/reports/engagement,Site Admin,200,,,Admin Pages (New PFE)
+56,Admin moderation,GET,/adm/moderation,Site Admin,200,,,Admin Pages (New PFE)
+57,Admin moderation: comments,GET,/adm/moderation/comments,Site Admin,200,,,Admin Pages (New PFE)
+58,Admin moderation: submissions,GET,/adm/moderation/submissions,Site Admin,200,,,Admin Pages (New PFE)
+59,Admin engagement,GET,/adm/engagement,Site Admin,200,,,Admin Pages (New PFE)
+60,Admin analytics,GET,/adm/analytics,Site Admin,200,,,Admin Pages (New PFE)
+61,Admin analytics: visitors,GET,/adm/analytics/visitors,Site Admin,200,,,Admin Pages (New PFE)
+62,Admin analytics: engagement,GET,/adm/analytics/engagement,Site Admin,200,,,Admin Pages (New PFE)
+63,Admin analytics: demographics,GET,/adm/analytics/demographics,Site Admin,200,,,Admin Pages (New PFE)
+64,Admin integrations,GET,/adm/integrations,Site Admin,200,,,Admin Pages (New PFE)
+65,Admin emails,GET,/adm/emails,Site Admin,200,,,Admin Pages (New PFE)
+66,Admin email templates,GET,/adm/emails/templates,Site Admin,200,,,Admin Pages (New PFE)
+67,Admin sent emails,GET,/adm/emails/sent,Site Admin,200,,,Admin Pages (New PFE)
+68,Admin themes,GET,/adm/themes,Site Admin,200,,,Admin Pages (New PFE)
+69,Admin permissions,GET,/adm/permissions,Site Admin,200,,,Admin Pages (New PFE)
+70,Admin activity,GET,/adm/activity,Site Admin,200,,,Admin Pages (New PFE)
+71,Admin site settings,GET,/adm/site,Site Admin,200,,,Admin Pages (New PFE)
+72,Admin site config,GET,/adm/site/settings,Site Admin,200,,,Admin Pages (New PFE)
+73,Admin site navigation,GET,/adm/site/navigation,Site Admin,200,,,Admin Pages (New PFE)
+74,Admin site custom pages,GET,/adm/site/custom_pages,Site Admin,200,,,Admin Pages (New PFE)
+75,Admin site SSO,GET,/adm/site/sso,Site Admin,200,,,Admin Pages (New PFE)
+76,Admin site API keys,GET,/adm/site/api_keys,Site Admin,200,,,Admin Pages (New PFE)
+77,Admin site webhooks,GET,/adm/site/webhooks,Site Admin,200,,,Admin Pages (New PFE)
+78,Admin site custom domain,GET,/adm/site/custom_domain,Site Admin,200,,,Admin Pages (New PFE)
+79,Admin site custom CSS,GET,/adm/site/custom_css,Site Admin,200,,,Admin Pages (New PFE)
+80,Admin branding,GET,/adm/branding,Site Admin,200,,,Admin Pages (New PFE)
+81,Admin project detail,GET,/adm/projects/{projectSlug},Site Admin,200,,,Admin Pages (New PFE)
+82,Admin project settings,GET,/adm/projects/{projectSlug}/settings,Site Admin,200,,,Admin Pages (New PFE)
+83,Legacy project admin,GET,/admin/projects/{projectSlug},Site Admin,200,,,"Legacy Admin (no-redirect)"
+84,Legacy site settings,GET,/admin/sites/settings,Site Admin,200,,,Legacy Admin
+85,Legacy site editor (home page),GET,/admin/sites/editors/home-page,Site Admin,200,,,Legacy Admin
+86,Legacy administrators,GET,/admin/people/administrators,Site Admin,200,,,Legacy Admin
+87,Legacy newsletters,GET,/admin/newsletters,Site Admin,200,,,Legacy Admin
+88,Legacy marketplace,GET,/admin/marketplace,Site Admin,200,,,Legacy Admin
+89,Legacy site hubs,GET,/admin/site_hubs,Site Admin,200,,,Legacy Admin
+90,Admin heartbeat,GET,/admin/api/auth/heartbeat,Site Admin,200,,,Legacy Admin
+91,Admin data exports,GET,/adm/data_exports,Site Admin,200,,,Admin Data & Audit
+92,Admin imports,GET,/adm/imports,Site Admin,200,,,Admin Data & Audit
+93,Admin audit log,GET,/adm/audit_log,Site Admin,200,,,Admin Data & Audit
+94,PUT user profile,PUT,/api/v2/users/current,Site Admin,200,,,Write APIs (PUT)
+95,PUT site config,PUT,/api/v2/site,Site Admin,200,,,Write APIs (PUT)
+96,PUT site settings,PUT,/api/v2/settings,Site Admin,200,,,Write APIs (PUT)
+97,PUT theme,PUT,/api/v2/theme,Site Admin,200,,,Write APIs (PUT)
+98,PUT project,PUT,/api/v2/projects/47804,Site Admin,200,,,Write APIs (PUT)
+99,PUT project publish,PUT,/api/v2/projects/47804/publish,Site Admin,200 | 422,,,Write APIs (PUT)
+100,PUT reporting filters,PUT,/api/v2/reporting/dashboard_filters,Site Admin,200 | 422,,,Write APIs (PUT)
+101,PATCH user profile,PATCH,/api/v2/users/current,Site Admin,200,,,Write APIs (PATCH)
+102,PATCH site config,PATCH,/api/v2/site,Site Admin,200,,,Write APIs (PATCH)
+103,PATCH site settings,PATCH,/api/v2/settings,Site Admin,200,,,Write APIs (PATCH)
+104,PATCH theme,PATCH,/api/v2/theme,Site Admin,200,,,Write APIs (PATCH)
+105,PATCH project,PATCH,/api/v2/projects/47804,Site Admin,200,,,Write APIs (PATCH)
+106,PATCH heartbeat,PATCH,/admin/api/auth/heartbeat,Site Admin,204,,,Write APIs (PATCH)
+107,POST login API,POST,/users/sign_in,None,200 | 401 | 404 | 422,,,Write APIs (POST)
+108,POST password reset,POST,/users/password,None,200 | 422,,,Write APIs (POST)
+109,POST registration,POST,/users,None,200 | 422,,,Write APIs (POST)
+110,DELETE session (logout route),DELETE,/users/sign_out,Site Admin,200 | 204 | 302 | 404 | 405,,,Write APIs (DELETE)
+111,Homepage perf,GET,/,None,200,< 5000ms,,Performance Checks
+112,Login page perf,GET,/login,None,200,< 5000ms,,Performance Checks
+113,API projects perf,GET,/api/v2/projects,Site Admin,200,< 10000ms,,Performance Checks
+114,API site perf,GET,/api/v2/site,Site Admin,200,< 5000ms,,Performance Checks
+115,Admin dashboard perf,GET,/adm,Site Admin,200,< 5000ms,,Performance Checks
+116,API site returns JSON,GET,/api/v2/site,Site Admin,200,,body contains "name",Body Validation
+117,API current user has email,GET,/api/v2/users/current,Site Admin,200,,body contains "email",Body Validation
+118,API features returns JSON,GET,/api/v2/features,Site Admin,200,,body contains "features",Body Validation
+119,API theme returns JSON,GET,/api/v2/theme,Site Admin,200,,body contains "color",Body Validation
+120,API projects returns list,GET,/api/v2/projects,Site Admin,200,,body contains "projects",Body Validation
+121,Homepage contains HTML,GET,/,None,200,,body contains "<html",Body Validation
+122,Login page has form,GET,/login,None,200,,body contains "password",Body Validation
+123,Heartbeat is reachable,GET,/admin/api/auth/heartbeat,Site Admin,200,< 3000ms,,Performance Checks
+124,Favicon loads,GET,/favicon.ico,None,200,< 3000ms,,Static Assets / CDN
+125,Sitemap XML valid,GET,/sitemap.xml,None,200,,body contains "<?xml",Static Assets / CDN

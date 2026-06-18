@@ -1,0 +1,28 @@
+{
+  "name": "ehq-production-sanity",
+  "version": "1.0.0",
+  "description": "Read-only Playwright sanity checks for EHQ production",
+  "scripts": {
+    "test": "playwright test",
+    "test:sanity": "playwright test",
+    "test:endpoints": "playwright test tests/05-endpoints.spec.ts",
+    "test:login": "playwright test tests/01-login-page.spec.ts",
+    "test:headed": "playwright test --headed --workers=1",
+    "typecheck": "tsc --noEmit",
+    "ui": "npx tsx server.ts",
+    "ui:dev": "npx tsx watch server.ts"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.44.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^20.14.0",
+    "tsx": "^4.22.4",
+    "typescript": "^5.4.5"
+  }
+}
