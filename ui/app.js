@@ -26,6 +26,7 @@ async function loadSavedConfig() {
 
 // ── Site Selector ────────────────────────────────────────────
 const KNOWN_SITES = [
+  { label: 'Preprod', url: 'https://reporting.replica.bangthetable.in', slug: 'regression-project', username: 'siteadmin123' },
   { label: 'QA Demo - Australia', url: 'https://qa_demo.engagementhq.com', slug: 'test-demo-on-au' },
   { label: 'QA Demo - Europe', url: 'https://qa_demo.eu.engagementhq.com', slug: 'test-project-eu' },
   { label: 'QA Demo - United Kingdom', url: 'https://qa_demo.uk.engagementhq.com', slug: '2026-5-production-sanity' },
