@@ -6,6 +6,7 @@ let currentView = 'summary';
 let livePassCount = 0;
 let liveFailCount = 0;
 let liveTotalEstimate = 132;
+let currentReportRunId = null;
 
 // ── Init ────────────────────────────────────────────────────
 async function init() {
@@ -312,6 +313,7 @@ async function loadReport() {
 }
 
 function renderReport(report) {
+  currentReportRunId = report.meta?.id ?? null;
   const s = report.summary;
   const siteUrl = document.getElementById('siteUrl').value || '';
 
@@ -381,6 +383,35 @@ function renderReport(report) {
   renderResultsTable(report.specs);
   renderFailures(report.specs.filter(sp => sp.status === 'failed'));
   toggleView('summary');
+}
+
+async function downloadReport(format = 'csv') {
+  const url = currentReportRunId
+    ? `${API}/api/runs/${currentReportRunId}/download?format=${encodeURIComponent(format)}`
+    : `${API}/api/report/download?format=${encodeURIComponent(format)}`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      showNotification(err.error || 'Download failed', 'error');
+      return;
+    }
+
+    const blob = await res.blob();
+    const disposition = res.headers.get('Content-Disposition') || '';
+    const match = disposition.match(/filename="([^"]+)"/);
+    const filename = match?.[1] || `sanity-report.${format}`;
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+    showNotification(`Report downloaded (${format.toUpperCase()})`, 'success');
+  } catch {
+    showNotification('Download failed', 'error');
+  }
 }
 
 function renderResultsTable(specs) {
