@@ -3,13 +3,21 @@ import * as dotenv from 'dotenv';
 import * as path from 'path';
 import { LoginPage } from '../src/pages/loginPage';
 import { getConfig } from '../src/config/env';
+import { getWriteEndpoints } from '../src/config/writeEndpoints';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const config = getConfig();
 const SITE_URL = config.siteUrl;
+const PROJECT_SLUG = config.projectSlug;
+const ALLOW_ACTIVE_PROBES = process.env.ALLOW_WRITE_DISCOVERY === 'true';
+const IS_NON_PROD = /replica|preprod|staging|localhost/i.test(new URL(SITE_URL).hostname);
 
-const PUT_CANDIDATES = [
+/**
+ * Candidate routes are hypotheses, not confirmed write endpoints.
+ * Active probing is disabled by default because even an empty JSON body can mutate data.
+ */
+const WRITE_ROUTE_CANDIDATES = [
   '/api/v2/users/current',
   '/api/v2/site',
   '/api/v2/settings',
@@ -19,10 +27,10 @@ const PUT_CANDIDATES = [
   '/api/v2/user_subscriptions',
   '/api/v2/signup_form_questions',
   '/api/v2/projects',
-  '/api/v2/projects/47804',
-  '/api/v2/projects/47804/publish',
-  '/api/v2/projects/47804/archive',
-  '/api/v2/projects/47804/settings',
+  `/api/v2/projects/${PROJECT_SLUG}`,
+  `/api/v2/projects/${PROJECT_SLUG}/publish`,
+  `/api/v2/projects/${PROJECT_SLUG}/archive`,
+  `/api/v2/projects/${PROJECT_SLUG}/settings`,
   '/api/v2/home_page_revisions/current',
   '/api/v2/users/current/password',
   '/api/v2/users/current/notifications',
@@ -54,14 +62,14 @@ async function main() {
   await loginPage.loginAs(config.siteAdmin.username, config.siteAdmin.password);
   console.log('Logged in successfully.\n');
 
-  // Also capture PUT/PATCH requests the SPA makes when navigating admin pages
-  const networkPuts = new Set<string>();
+  // Capture writes naturally emitted by the SPA while loading admin pages.
+  const networkWrites = new Set<string>();
   page.on('request', (req) => {
     const method = req.method();
-    if (method === 'PUT' || method === 'PATCH') {
+    if (['PUT', 'PATCH', 'POST', 'DELETE'].includes(method)) {
       const url = req.url();
       if (url.startsWith(SITE_URL)) {
-        networkPuts.add(`${method} ${url.replace(SITE_URL, '')}`);
+        networkWrites.add(`${method} ${url.replace(SITE_URL, '').split('?')[0]}`);
       }
     }
   });
@@ -71,24 +79,49 @@ async function main() {
     await page.goto(`${SITE_URL}${p}`, { waitUntil: 'networkidle', timeout: 30000 }).catch(() => {});
   }
 
-  console.log('=== Network-observed PUT/PATCH calls ===');
-  for (const entry of networkPuts) console.log(`  ${entry}`);
-  console.log(`  (${networkPuts.size} total)\n`);
+  const catalog = new Set(
+    getWriteEndpoints().map(
+      (endpoint) =>
+        `${endpoint.method ?? 'GET'} ${endpoint.path.replace('{projectSlug}', PROJECT_SLUG)}`
+    )
+  );
+  const observed = [...networkWrites].sort();
+  const uncovered = observed.filter((entry) => !catalog.has(entry));
 
-  // Now probe PUT candidates with authenticated context
-  console.log('=== Probing PUT endpoints (authenticated, empty body) ===\n');
+  console.log('=== Network-observed write calls ===');
+  for (const entry of observed) {
+    console.log(`  ${catalog.has(entry) ? '[covered]' : '[uncovered]'} ${entry}`);
+  }
+  console.log(`  (${observed.length} observed, ${uncovered.length} uncovered)\n`);
+
+  if (!ALLOW_ACTIVE_PROBES) {
+    console.log(
+      `Active probing skipped. ${WRITE_ROUTE_CANDIDATES.length} routes remain candidates, not confirmed endpoints.`
+    );
+    console.log(
+      'Set ALLOW_WRITE_DISCOVERY=true explicitly on a non-production host to probe them.'
+    );
+    await browser.close();
+    return;
+  }
+
+  if (!IS_NON_PROD) {
+    throw new Error('Active write-route discovery is blocked on production hosts.');
+  }
+
+  console.log('=== Probing PUT endpoints (opt-in, invalid dummy body) ===\n');
   console.log('Status | Method | Path');
   console.log('-------|--------|-----');
 
   const results: { path: string; status: number; accepts: boolean }[] = [];
 
-  for (const p of PUT_CANDIDATES) {
+  for (const p of WRITE_ROUTE_CANDIDATES) {
     const url = `${SITE_URL}${p}`;
     try {
       const resp = await context.request.fetch(url, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        data: '{}',
+        data: '{"__sanity_invalid":true}',
       });
       const status = resp.status();
       const accepts = status !== 404 && status !== 405;
@@ -102,17 +135,17 @@ async function main() {
   }
 
   // Also try PATCH on same endpoints
-  console.log('\n=== Probing PATCH endpoints (authenticated, empty body) ===\n');
+  console.log('\n=== Probing PATCH endpoints (opt-in, invalid dummy body) ===\n');
   console.log('Status | Method | Path');
   console.log('-------|--------|-----');
 
-  for (const p of PUT_CANDIDATES) {
+  for (const p of WRITE_ROUTE_CANDIDATES) {
     const url = `${SITE_URL}${p}`;
     try {
       const resp = await context.request.fetch(url, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: '{}',
+        data: '{"__sanity_invalid":true}',
       });
       const status = resp.status();
       const accepts = status !== 404 && status !== 405;

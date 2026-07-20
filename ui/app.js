@@ -5,13 +5,16 @@ let runStartTime = null;
 let currentView = 'summary';
 let livePassCount = 0;
 let liveFailCount = 0;
-let liveTotalEstimate = 132;
+let liveTotalEstimate = 0;
 let currentReportRunId = null;
+let suiteDefinitions = new Map();
 
 // ── Init ────────────────────────────────────────────────────
 async function init() {
   await loadSavedConfig();
+  await loadSuites();
   loadSiteSelector();
+  document.getElementById('siteUrl').addEventListener('input', updateSelectedSuite);
   await checkStatus();
 }
 
@@ -23,6 +26,52 @@ async function loadSavedConfig() {
     if (env.username) document.getElementById('username').value = env.username;
     if (env.projectSlug) document.getElementById('projectSlug').value = env.projectSlug;
   } catch { /* fresh start */ }
+}
+
+async function loadSuites(preferredId) {
+  const select = document.getElementById('suiteSelect');
+  const selectedId = preferredId || select.value;
+  try {
+    const response = await fetch(`${API}/api/suites`, { cache: 'no-store' });
+    if (!response.ok) throw new Error('Failed to load suites');
+    const suites = await response.json();
+    suiteDefinitions = new Map(suites.map((suite) => [suite.id, suite]));
+    select.innerHTML = suites
+      .map(
+        (suite) =>
+          `<option value="${suite.id}">${suite.label} (${suite.count} tests)</option>`
+      )
+      .join('');
+    select.value = suiteDefinitions.has(selectedId)
+      ? selectedId
+      : suiteDefinitions.has('all')
+        ? 'all'
+        : suites[0]?.id ?? '';
+    select.onchange = updateSelectedSuite;
+    updateSelectedSuite();
+  } catch {
+    select.innerHTML = '<option value="">Unable to load current test suites</option>';
+    select.disabled = true;
+  }
+}
+
+function updateSelectedSuite() {
+  const suite = suiteDefinitions.get(document.getElementById('suiteSelect').value);
+  liveTotalEstimate = suite?.count ?? 0;
+  document.getElementById('execTotal').textContent =
+    liveTotalEstimate > 0 ? `of ${liveTotalEstimate} tests` : 'of tests';
+  const hint = document.getElementById('runHint');
+  if (suite?.write) {
+    const siteUrl = document.getElementById('siteUrl').value.trim();
+    const isNonProd = /replica|preprod|staging|localhost/i.test(siteUrl);
+    hint.textContent = isNonProd
+      ? 'Preprod mode: successful write checks modify dummy fields.'
+      : 'Production mode: rejection-only checks; any 2xx response fails.';
+    hint.className = isNonProd ? 'form-error' : 'form-hint';
+  } else {
+    hint.textContent = '';
+    hint.className = 'form-hint';
+  }
 }
 
 // ── Site Selector ────────────────────────────────────────────
@@ -62,6 +111,7 @@ function onSiteSelected() {
     document.getElementById('siteUrl').value = site.url;
     if (site.slug) document.getElementById('projectSlug').value = site.slug;
     if (site.username) document.getElementById('username').value = site.username;
+    updateSelectedSuite();
   }
 }
 
@@ -97,12 +147,27 @@ async function handleRun() {
   const password = document.getElementById('password').value.trim();
   const projectSlug = document.getElementById('projectSlug').value.trim();
   const suiteId = document.getElementById('suiteSelect').value;
+  let suite = suiteDefinitions.get(suiteId);
   const hint = document.getElementById('runHint');
 
   if (!siteUrl || !username || !password || !projectSlug) {
     hint.textContent = 'All fields are required';
     hint.className = 'form-error';
     return;
+  }
+
+  if (!suite) {
+    hint.textContent = 'Select a current test suite';
+    hint.className = 'form-error';
+    return;
+  }
+
+  if (suite.write) {
+    const isNonProd = /replica|preprod|staging|localhost/i.test(siteUrl);
+    const warning = isNonProd
+      ? `Run ${suite.count} preprod write checks? These tests modify dummy fields.`
+      : 'Run production-safe rejection checks? Every request must return 422; any 2xx response fails.';
+    if (!window.confirm(warning)) return;
   }
 
   const btn = document.getElementById('runBtn');
@@ -126,6 +191,9 @@ async function handleRun() {
     }
 
     saveSiteToHistory(siteUrl, username, projectSlug);
+    await loadSuites(suiteId);
+    suite = suiteDefinitions.get(suiteId);
+    if (!suite) throw new Error('Selected suite is no longer available');
 
     btn.innerHTML = '<span>Starting tests...</span>';
 
@@ -138,7 +206,7 @@ async function handleRun() {
       return;
     }
 
-    showExecution(runData.suite || suiteId, siteUrl);
+    showExecution(runData.suite || suite.label, siteUrl, runData.count || suite.count);
   } catch (e) {
     hint.textContent = 'Connection failed. Is the server running?';
     hint.className = 'form-error';
@@ -153,11 +221,11 @@ function resetRunBtn() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polygon points="5 3 19 12 5 21 5 3"></polygon>
     </svg>
-    Run Sanity Suite`;
+    Run Verification Suite`;
 }
 
 // ── Execution View ──────────────────────────────────────────
-function showExecution(suiteName, siteUrl) {
+function showExecution(suiteName, siteUrl, suiteCount) {
   document.getElementById('configPanel').style.display = 'none';
   document.getElementById('reportPanel').style.display = 'none';
   document.getElementById('outputPanel').style.display = '';
@@ -165,6 +233,7 @@ function showExecution(suiteName, siteUrl) {
   document.getElementById('runSuite').textContent = suiteName;
   document.getElementById('execBarFill').style.width = '0%';
   document.getElementById('execBarFill').classList.remove('done');
+  liveTotalEstimate = suiteCount || liveTotalEstimate;
 
   livePassCount = 0;
   liveFailCount = 0;
@@ -247,7 +316,11 @@ async function checkStatus() {
     const res = await fetch(`${API}/api/status`);
     const data = await res.json();
     if (data.status === 'running') {
-      showExecution(data.suite, data.siteUrl || '');
+      showExecution(
+        data.suite,
+        data.siteUrl || '',
+        data.count || suiteDefinitions.get(data.suiteId)?.count
+      );
       runStartTime = data.startedAt ? new Date(data.startedAt).getTime() : Date.now();
     }
   } catch { /* ignore */ }
@@ -284,7 +357,8 @@ function parseLiveCounts(lines) {
 function updateExecCounts() {
   document.getElementById('execPassed').textContent = `${livePassCount} passed`;
   document.getElementById('execFailed').textContent = `${liveFailCount} failed`;
-  document.getElementById('execTotal').textContent = `of ~${liveTotalEstimate} tests`;
+  document.getElementById('execTotal').textContent =
+    liveTotalEstimate > 0 ? `of ${liveTotalEstimate} tests` : 'of tests';
 }
 
 function updateTerminal(lines) {

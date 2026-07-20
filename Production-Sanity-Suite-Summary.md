@@ -17,34 +17,37 @@ The EHQ Production Sanity Suite is an automated post-deployment health check sys
 
 ### 2. Endpoint Discovery & Coverage
 
-- Discovered 93+ GET endpoints across public pages, participant views, admin panels, and API v2
+- Registered 134 GET/HEAD checks across public pages, participant views, admin panels, and API v2
 - Identified PUT, PATCH, POST, and DELETE API routes
 - Crawled the SPA dynamically using Playwright browser context and network interception
 - Used ripgrep to extract URLs from HTML and verify slugs across environments
 
 ### 3. Test Architecture
 
-- Designed the `EndpointCheck` interface supporting: method, auth level, expected status (single or array), no-redirect, request body, max response time, body contains, and body has key
+- Designed the `EndpointCheck` interface supporting method, auth, expected status, validation semantics, redirects, request body, performance, and body assertions
 - Created `src/helpers/endpointCheck.ts` — the core assertion engine
 - Created `src/helpers/authenticatedRequest.ts` — session-based auth using browser cookies
-- Created `src/config/endpoints.ts` — centralized endpoint registry (125 checks)
-- Created `tests/05-endpoints.spec.ts` — Playwright test file iterating all endpoints
+- Created `src/config/endpoints.ts` — centralized read-only endpoint registry (134 checks)
+- Created `src/config/writeEndpoints.ts` — separately gated write registry (18 checks)
+- Created `src/config/productionWriteEndpoints.ts` — rejection-only production registry (3 checks)
+- Created `tests/05-endpoints.spec.ts` — Playwright test file enforcing GET/HEAD-only execution
 
 ### 4. Multi-Layer Validation
 
 | Validation Layer | Description |
 |-----------------|-------------|
-| Status Code Checks | Verifies HTTP status for all 93 GET routes |
-| Write Method Validation | Validates PUT/PATCH/POST/DELETE routes exist without modifying data |
+| Success Checks | Requires configured successful status and optional body/performance evidence |
+| Availability Probes | Reports optional 404/204 responses without claiming feature success |
+| Write Method Validation | Full writes on non-production; rejection-only payloads on production |
 | Performance Assertions | Response time thresholds on critical endpoints |
 | Response Body Validation | Confirms JSON APIs return expected keys and HTML pages contain expected structure |
 | Static Asset / CDN Checks | Favicon loads, sitemap.xml is valid XML |
 
 ### 5. Production Safety Design
 
-- Read-only by design — write operations use empty/invalid payloads to confirm route existence
-- Expected status arrays handle cross-environment differences (e.g., Devise routes return 404 on some regions)
-- No data is created, modified, or deleted on production
+- The production registry and endpoint spec reject PUT/PATCH/POST/DELETE methods
+- Write checks require both `ALLOW_WRITE_TESTS=true` and a non-production hostname
+- Expected 4xx responses are labeled rejection checks rather than successful feature checks
 
 ### 6. Cross-Region Support
 
@@ -79,8 +82,9 @@ The EHQ Production Sanity Suite is an automated post-deployment health check sys
 
 ### 10. Documentation & Artefacts
 
-- Generated `test-cases-detailed.csv` — 125 test cases with IDs, descriptions, and pass criteria (Excel-ready)
-- Generated `test-cases-api-mapping.csv` — endpoint-to-API mapping
+- Generated `test-cases-detailed.csv` — 155 synchronized endpoint mappings with validation semantics
+- Generated `test-cases-api-mapping.csv` — generated endpoint-to-API mapping
+- Added `npm run docs:generate` and `npm run docs:check` to prevent CSV drift
 - `endpoints.json.example` for custom endpoint configuration
 
 ---
@@ -89,10 +93,13 @@ The EHQ Production Sanity Suite is an automated post-deployment health check sys
 
 | Metric | Value |
 |--------|-------|
-| Total test cases | 125 |
-| HTTP methods covered | GET, POST, PUT, PATCH, DELETE |
+| Production endpoint checks | 134 GET/HEAD-only |
+| Opt-in write checks | 18 |
+| Production rejection checks | 3 |
+| Generated endpoint mappings | 155 |
+| HTTP methods covered | GET in production; POST, PUT, PATCH, DELETE only in non-production write runs |
 | Regions supported | 5 (AU, EU, UK, CA, US) |
-| Validation layers | 5 (status, perf, body, key, redirect) |
+| Validation semantics | success, availability, rejection, access-control |
 | Files created | ~15 |
 | Avg. execution time | < 2 minutes |
 
@@ -139,7 +146,9 @@ production sanity_suite/
 ├── src/
 │   ├── config/
 │   │   ├── env.ts                # Environment variable loader
-│   │   └── endpoints.ts          # Endpoint registry (125 checks)
+│   │   ├── endpoints.ts          # Read-only endpoint registry (134 checks)
+│   │   ├── writeEndpoints.ts     # Opt-in write registry (18 checks)
+│   │   └── productionWriteEndpoints.ts # Production rejection registry (3 checks)
 │   └── helpers/
 │       ├── endpointCheck.ts      # Core assertion engine
 │       ├── authenticatedRequest.ts # Session-based authentication
@@ -149,7 +158,9 @@ production sanity_suite/
 │   ├── 02-participant-flows.spec.ts # Participant flow tests
 │   ├── 03-admin-flows.spec.ts    # Admin flow tests
 │   ├── 04-public-site.spec.ts    # Public site tests
-│   └── 05-endpoints.spec.ts      # Endpoint health checks (125 tests)
+│   ├── 05-endpoints.spec.ts      # Read-only endpoint health checks
+│   ├── 06-write-apis.spec.ts     # Opt-in non-production write checks
+│   └── 07-production-write-validation.spec.ts # Rejection-only production checks
 ├── run-history/                   # Saved test run reports
 ├── test-cases-detailed.csv        # Test case documentation (Excel)
 ├── test-cases-api-mapping.csv     # Endpoint-to-API mapping (Excel)
@@ -172,8 +183,8 @@ production sanity_suite/
 
 ## Key Design Decisions
 
-1. **Read-only execution** — No production data is ever modified. Write methods send empty/invalid bodies and expect rejection (422/401).
-2. **Cross-environment tolerance** — Expected status arrays accommodate regional differences without false failures.
+1. **Read-only production execution** — The default endpoint suite rejects every method except GET/HEAD.
+2. **Explicit semantics** — Optional availability and expected rejection checks are not reported as feature success.
 3. **Single config, multi-region** — One codebase tests any EHQ deployment by changing the `.env` or using the UI dropdown.
 4. **Self-documenting tests** — Each test title includes what's validated, making reports immediately actionable.
 5. **Persistent history** — Every run is saved, enabling trend tracking and regression comparison.

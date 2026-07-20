@@ -1,126 +1,156 @@
-S.No,Test Case Name,HTTP Method,API Endpoint / Path,Auth Required,Expected Status,Performance Threshold,Body Validation,Category
-1,Homepage,GET,/,None,200,,,Public Pages
-2,Login page,GET,/login,None,200,,,Public Pages
-3,Sign-in page,GET,/sign_in,None,200,,,Public Pages
-4,Register page,GET,/register,None,200,,,Public Pages
-5,Forgot password,GET,/users/password/new,None,200,,,Public Pages
-6,Confirm account page,GET,/users/confirmation/new,None,200,,,Public Pages
-7,Terms,GET,/terms,None,200,,,Public Pages
-8,Accessibility statement,GET,/accessibility-statement,None,200,,,Public Pages
-9,Technical support,GET,/technical_support,None,200,,,Public Pages
-10,Moderation policy,GET,/moderation,None,200,,,Public Pages
-11,Sitemap XML,GET,/sitemap.xml,None,200,,,Public Pages
-12,Favicon,GET,/favicon.ico,None,200,,,Public Pages
-13,Published project page,GET,/{projectSlug},None,200,,,Public Pages
-14,Project documents,GET,/{projectSlug}/documents,None,200,,,Public Pages
-15,Project FAQs,GET,/{projectSlug}/faqs,None,200,,,Public Pages
-16,Project photos,GET,/{projectSlug}/photos,None,200,,,Public Pages
-17,Project videos,GET,/{projectSlug}/videos,None,200,,,Public Pages
-18,Participant home,GET,/,Participant,200,,,Participant Endpoints
-19,Participant project page,GET,/{projectSlug},Participant,200,,,Participant Endpoints
-20,Participant project documents,GET,/{projectSlug}/documents,Participant,200,,,Participant Endpoints
-21,Participant project FAQs,GET,/{projectSlug}/faqs,Participant,200,,,Participant Endpoints
-22,Session info,GET,/session_info,Participant,200,,,Participant Endpoints
-23,Token endpoint,GET,/token,Participant,200,,,Participant Endpoints
-24,API site info,GET,/api/v2/site,Site Admin,200,,,API v2
-25,API settings,GET,/api/v2/settings,Site Admin,200,,,API v2
-26,API features,GET,/api/v2/features,Site Admin,200,,,API v2
-27,API theme,GET,/api/v2/theme,Site Admin,200,,,API v2
-28,API current user,GET,/api/v2/users/current,Site Admin,200,,,API v2
-29,API projects,GET,/api/v2/projects,Site Admin,200,,,API v2
-30,API navigation links,GET,/api/v2/navigation_links,Site Admin,200,,,API v2
-31,API layouts,GET,/api/v2/layouts/selected,Site Admin,200,,,API v2
-32,API home page revisions,GET,/api/v2/home_page_revisions,Site Admin,200,,,API v2
-33,API recommendations,GET,/api/v2/recommendations,Site Admin,200,,,API v2
-34,API signup form questions,GET,/api/v2/signup_form_questions,Site Admin,200,,,API v2
-35,API intercom,GET,/api/v2/intercom,Site Admin,200,,,API v2
-36,API user subscriptions,GET,/api/v2/user_subscriptions,Site Admin,200,,,API v2
-37,API reporting dashboard filters,GET,/api/v2/reporting/dashboard_filters,Site Admin,200,,,API v2
-38,API reporting contribution tags,GET,/api/v2/reporting/dashboards/contribution_tags,Site Admin,200,,,API v2
-39,API reporting contributions location,GET,/api/v2/reporting/dashboards/contributions_location,Site Admin,200,,,API v2
-40,API reporting top performing tools,GET,/api/v2/reporting/dashboards/top_performing_tools,Site Admin,200,,,API v2
-41,Admin dashboard,GET,/adm,Site Admin,200,,,Admin Pages (New PFE)
-42,Admin dashboard page,GET,/adm/dashboard,Site Admin,200,,,Admin Pages (New PFE)
-43,Admin projects,GET,/adm/projects,Site Admin,200,,,Admin Pages (New PFE)
-44,Admin archived projects,GET,/adm/projects/archived,Site Admin,200,,,Admin Pages (New PFE)
-45,Admin draft projects,GET,/adm/projects/draft,Site Admin,200,,,Admin Pages (New PFE)
-46,Admin users,GET,/adm/users,Site Admin,200,,,Admin Pages (New PFE)
-47,Admin participants,GET,/adm/participants,Site Admin,200,,,Admin Pages (New PFE)
-48,Admin registered participants,GET,/adm/participants/registered,Site Admin,200,,,Admin Pages (New PFE)
-49,Admin pending participants,GET,/adm/participants/pending,Site Admin,200,,,Admin Pages (New PFE)
-50,Admin settings,GET,/adm/settings,Site Admin,200,,,Admin Pages (New PFE)
-51,Admin reports,GET,/adm/reports,Site Admin,200,,,Admin Pages (New PFE)
-52,Admin reports: registrations,GET,/adm/reports/registrations,Site Admin,200,,,Admin Pages (New PFE)
-53,Admin reports: contributions,GET,/adm/reports/contributions,Site Admin,200,,,Admin Pages (New PFE)
-54,Admin reports: visitors,GET,/adm/reports/visitors,Site Admin,200,,,Admin Pages (New PFE)
-55,Admin reports: engagement,GET,/adm/reports/engagement,Site Admin,200,,,Admin Pages (New PFE)
-56,Admin moderation,GET,/adm/moderation,Site Admin,200,,,Admin Pages (New PFE)
-57,Admin moderation: comments,GET,/adm/moderation/comments,Site Admin,200,,,Admin Pages (New PFE)
-58,Admin moderation: submissions,GET,/adm/moderation/submissions,Site Admin,200,,,Admin Pages (New PFE)
-59,Admin engagement,GET,/adm/engagement,Site Admin,200,,,Admin Pages (New PFE)
-60,Admin analytics,GET,/adm/analytics,Site Admin,200,,,Admin Pages (New PFE)
-61,Admin analytics: visitors,GET,/adm/analytics/visitors,Site Admin,200,,,Admin Pages (New PFE)
-62,Admin analytics: engagement,GET,/adm/analytics/engagement,Site Admin,200,,,Admin Pages (New PFE)
-63,Admin analytics: demographics,GET,/adm/analytics/demographics,Site Admin,200,,,Admin Pages (New PFE)
-64,Admin integrations,GET,/adm/integrations,Site Admin,200,,,Admin Pages (New PFE)
-65,Admin emails,GET,/adm/emails,Site Admin,200,,,Admin Pages (New PFE)
-66,Admin email templates,GET,/adm/emails/templates,Site Admin,200,,,Admin Pages (New PFE)
-67,Admin sent emails,GET,/adm/emails/sent,Site Admin,200,,,Admin Pages (New PFE)
-68,Admin themes,GET,/adm/themes,Site Admin,200,,,Admin Pages (New PFE)
-69,Admin permissions,GET,/adm/permissions,Site Admin,200,,,Admin Pages (New PFE)
-70,Admin activity,GET,/adm/activity,Site Admin,200,,,Admin Pages (New PFE)
-71,Admin site settings,GET,/adm/site,Site Admin,200,,,Admin Pages (New PFE)
-72,Admin site config,GET,/adm/site/settings,Site Admin,200,,,Admin Pages (New PFE)
-73,Admin site navigation,GET,/adm/site/navigation,Site Admin,200,,,Admin Pages (New PFE)
-74,Admin site custom pages,GET,/adm/site/custom_pages,Site Admin,200,,,Admin Pages (New PFE)
-75,Admin site SSO,GET,/adm/site/sso,Site Admin,200,,,Admin Pages (New PFE)
-76,Admin site API keys,GET,/adm/site/api_keys,Site Admin,200,,,Admin Pages (New PFE)
-77,Admin site webhooks,GET,/adm/site/webhooks,Site Admin,200,,,Admin Pages (New PFE)
-78,Admin site custom domain,GET,/adm/site/custom_domain,Site Admin,200,,,Admin Pages (New PFE)
-79,Admin site custom CSS,GET,/adm/site/custom_css,Site Admin,200,,,Admin Pages (New PFE)
-80,Admin branding,GET,/adm/branding,Site Admin,200,,,Admin Pages (New PFE)
-81,Admin project detail,GET,/adm/projects/{projectSlug},Site Admin,200,,,Admin Pages (New PFE)
-82,Admin project settings,GET,/adm/projects/{projectSlug}/settings,Site Admin,200,,,Admin Pages (New PFE)
-83,Legacy project admin,GET,/admin/projects/{projectSlug},Site Admin,200,,,"Legacy Admin (no-redirect)"
-84,Legacy site settings,GET,/admin/sites/settings,Site Admin,200,,,Legacy Admin
-85,Legacy site editor (home page),GET,/admin/sites/editors/home-page,Site Admin,200,,,Legacy Admin
-86,Legacy administrators,GET,/admin/people/administrators,Site Admin,200,,,Legacy Admin
-87,Legacy newsletters,GET,/admin/newsletters,Site Admin,200,,,Legacy Admin
-88,Legacy marketplace,GET,/admin/marketplace,Site Admin,200,,,Legacy Admin
-89,Legacy site hubs,GET,/admin/site_hubs,Site Admin,200,,,Legacy Admin
-90,Admin heartbeat,GET,/admin/api/auth/heartbeat,Site Admin,200,,,Legacy Admin
-91,Admin data exports,GET,/adm/data_exports,Site Admin,200,,,Admin Data & Audit
-92,Admin imports,GET,/adm/imports,Site Admin,200,,,Admin Data & Audit
-93,Admin audit log,GET,/adm/audit_log,Site Admin,200,,,Admin Data & Audit
-94,PUT user profile,PUT,/api/v2/users/current,Site Admin,200,,,Write APIs (PUT)
-95,PUT site config,PUT,/api/v2/site,Site Admin,200,,,Write APIs (PUT)
-96,PUT site settings,PUT,/api/v2/settings,Site Admin,200,,,Write APIs (PUT)
-97,PUT theme,PUT,/api/v2/theme,Site Admin,200,,,Write APIs (PUT)
-98,PUT project,PUT,/api/v2/projects/47804,Site Admin,200,,,Write APIs (PUT)
-99,PUT project publish,PUT,/api/v2/projects/47804/publish,Site Admin,200 | 422,,,Write APIs (PUT)
-100,PUT reporting filters,PUT,/api/v2/reporting/dashboard_filters,Site Admin,200 | 422,,,Write APIs (PUT)
-101,PATCH user profile,PATCH,/api/v2/users/current,Site Admin,200,,,Write APIs (PATCH)
-102,PATCH site config,PATCH,/api/v2/site,Site Admin,200,,,Write APIs (PATCH)
-103,PATCH site settings,PATCH,/api/v2/settings,Site Admin,200,,,Write APIs (PATCH)
-104,PATCH theme,PATCH,/api/v2/theme,Site Admin,200,,,Write APIs (PATCH)
-105,PATCH project,PATCH,/api/v2/projects/47804,Site Admin,200,,,Write APIs (PATCH)
-106,PATCH heartbeat,PATCH,/admin/api/auth/heartbeat,Site Admin,204,,,Write APIs (PATCH)
-107,POST login API,POST,/users/sign_in,None,200 | 401 | 404 | 422,,,Write APIs (POST)
-108,POST password reset,POST,/users/password,None,200 | 422,,,Write APIs (POST)
-109,POST registration,POST,/users,None,200 | 422,,,Write APIs (POST)
-110,DELETE session (logout route),DELETE,/users/sign_out,Site Admin,200 | 204 | 302 | 404 | 405,,,Write APIs (DELETE)
-111,Homepage perf,GET,/,None,200,< 5000ms,,Performance Checks
-112,Login page perf,GET,/login,None,200,< 5000ms,,Performance Checks
-113,API projects perf,GET,/api/v2/projects,Site Admin,200,< 10000ms,,Performance Checks
-114,API site perf,GET,/api/v2/site,Site Admin,200,< 5000ms,,Performance Checks
-115,Admin dashboard perf,GET,/adm,Site Admin,200,< 5000ms,,Performance Checks
-116,API site returns JSON,GET,/api/v2/site,Site Admin,200,,body contains "name",Body Validation
-117,API current user has email,GET,/api/v2/users/current,Site Admin,200,,body contains "email",Body Validation
-118,API features returns JSON,GET,/api/v2/features,Site Admin,200,,body contains "features",Body Validation
-119,API theme returns JSON,GET,/api/v2/theme,Site Admin,200,,body contains "color",Body Validation
-120,API projects returns list,GET,/api/v2/projects,Site Admin,200,,body contains "projects",Body Validation
-121,Homepage contains HTML,GET,/,None,200,,body contains "<html",Body Validation
-122,Login page has form,GET,/login,None,200,,body contains "password",Body Validation
-123,Heartbeat is reachable,GET,/admin/api/auth/heartbeat,Site Admin,200,< 3000ms,,Performance Checks
-124,Favicon loads,GET,/favicon.ico,None,200,< 3000ms,,Static Assets / CDN
-125,Sitemap XML valid,GET,/sitemap.xml,None,200,,body contains "<?xml",Static Assets / CDN
+S.No,Suite,Test Case Name,HTTP Method,API Endpoint / Path,Auth Required,Expected Status,Validation Type,Performance Threshold,Body Validation,Category
+1,prod-sanity,Homepage,GET,/,None,200,success,,,Public Pages
+2,prod-sanity,Login page,GET,/login,None,200,success,,,Public Pages
+3,prod-sanity,Sign-in page,GET,/sign_in,None,200,success,,,Public Pages
+4,prod-sanity,Register page,GET,/register,None,200,success,,,Public Pages
+5,prod-sanity,Forgot password,GET,/users/password/new,None,200,success,,,Public Pages
+6,prod-sanity,Confirm account page,GET,/users/confirmation/new,None,200,success,,,Public Pages
+7,prod-sanity,Terms,GET,/terms,None,200,success,,,Public Pages
+8,prod-sanity,Accessibility statement,GET,/accessibility-statement,None,200|404,availability,,,Public Pages
+9,prod-sanity,Technical support availability,GET,/technical_support,None,200|404,availability,,,Public Pages
+10,prod-sanity,Moderation policy,GET,/moderation,None,200,success,,,Public Pages
+11,prod-sanity,Sitemap XML,GET,/sitemap.xml,None,200,success,,,Public Pages
+12,prod-sanity,Favicon,GET,/favicon.ico,None,200,success,,,Public Pages
+13,prod-sanity,Published project page,GET,/{projectSlug},None,200,success,,,Public Project
+14,prod-sanity,Project documents,GET,/{projectSlug}/documents,None,200,success,,,Public Project
+15,prod-sanity,Project FAQs,GET,/{projectSlug}/faqs,None,200,success,,,Public Project
+16,prod-sanity,Project photos,GET,/{projectSlug}/photos,None,200,success,,,Public Project
+17,prod-sanity,Project videos,GET,/{projectSlug}/videos,None,200,success,,,Public Project
+18,prod-sanity,Project surveys,GET,/{projectSlug}/surveys,None,200|404,availability,,,Public Project
+19,prod-sanity,Project forums,GET,/{projectSlug}/forums,None,200|404,availability,,,Public Project
+20,prod-sanity,Project stories,GET,/{projectSlug}/stories,None,200|404,availability,,,Public Project
+21,prod-sanity,Project maps,GET,/{projectSlug}/maps,None,200|204|404,availability,,,Public Project
+22,prod-sanity,Project ideas,GET,/{projectSlug}/ideas,None,200|404,availability,,,Public Project
+23,prod-sanity,Project polls,GET,/{projectSlug}/polls,None,200|404,availability,,,Public Project
+24,prod-sanity,Project Q&A,GET,/{projectSlug}/qanda,None,200|404,availability,,,Public Project
+25,prod-sanity,Project guestbook,GET,/{projectSlug}/guestbook,None,200|404,availability,,,Public Project
+26,prod-sanity,Project news feed,GET,/{projectSlug}/newsfeed,None,200|404,availability,,,Public Project
+27,prod-sanity,Project key dates,GET,/{projectSlug}/key_dates,None,200|404,availability,,,Public Project
+28,prod-sanity,Participant home,GET,/,Participant,200,success,,,Participant Endpoints
+29,prod-sanity,Participant project page,GET,/{projectSlug},Participant,200,success,,,Participant Endpoints
+30,prod-sanity,Participant project documents,GET,/{projectSlug}/documents,Participant,200,success,,,Participant Endpoints
+31,prod-sanity,Participant project FAQs,GET,/{projectSlug}/faqs,Participant,200,success,,,Participant Endpoints
+32,prod-sanity,Participant project photos,GET,/{projectSlug}/photos,Participant,200,success,,,Participant Endpoints
+33,prod-sanity,Participant project videos,GET,/{projectSlug}/videos,Participant,200,success,,,Participant Endpoints
+34,prod-sanity,Participant surveys,GET,/{projectSlug}/surveys,Participant,200|404,availability,,,Participant Endpoints
+35,prod-sanity,Participant forums,GET,/{projectSlug}/forums,Participant,200|404,availability,,,Participant Endpoints
+36,prod-sanity,Participant stories,GET,/{projectSlug}/stories,Participant,200|404,availability,,,Participant Endpoints
+37,prod-sanity,Participant maps,GET,/{projectSlug}/maps,Participant,200|204|404,availability,,,Participant Endpoints
+38,prod-sanity,Participant ideas,GET,/{projectSlug}/ideas,Participant,200|404,availability,,,Participant Endpoints
+39,prod-sanity,Participant polls,GET,/{projectSlug}/polls,Participant,200|404,availability,,,Participant Endpoints
+40,prod-sanity,Participant Q&A,GET,/{projectSlug}/qanda,Participant,200|404,availability,,,Participant Endpoints
+41,prod-sanity,Participant guestbook,GET,/{projectSlug}/guestbook,Participant,200|404,availability,,,Participant Endpoints
+42,prod-sanity,Participant news feed,GET,/{projectSlug}/newsfeed,Participant,200|404,availability,,,Participant Endpoints
+43,prod-sanity,Participant key dates,GET,/{projectSlug}/key_dates,Participant,200|404,availability,,,Participant Endpoints
+44,prod-sanity,Participant profile,GET,/profile,Participant,200,success,,,Participant Endpoints
+45,prod-sanity,Session info,GET,/session_info,Participant,200,success,,,Participant Endpoints
+46,prod-sanity,Token endpoint,GET,/token,Participant,200,success,,,Participant Endpoints
+47,prod-sanity,Participant API current user,GET,/api/v2/users/current,Participant,200,success,,"Contains: ""email""",Participant Endpoints
+48,prod-sanity,Participant API subscriptions,GET,/api/v2/user_subscriptions,Participant,200,success,,,Participant Endpoints
+49,prod-sanity,Participant API recommendations,GET,/api/v2/recommendations,Participant,200,success,,,Participant Endpoints
+50,prod-sanity,Participant API project,GET,/api/v2/projects/{projectSlug},Participant,200,success,,,Participant Endpoints
+51,prod-sanity,API navigation links,GET,/api/v2/navigation_links,Site Admin,200,success,,,Admin API
+52,prod-sanity,API layouts,GET,/api/v2/layouts/selected,Site Admin,200,success,,,Admin API
+53,prod-sanity,API home page revisions,GET,/api/v2/home_page_revisions,Site Admin,200,success,,,Admin API
+54,prod-sanity,API recommendations,GET,/api/v2/recommendations,Site Admin,200,success,,,Admin API
+55,prod-sanity,API signup form questions,GET,/api/v2/signup_form_questions,Site Admin,200,success,,,Admin API
+56,prod-sanity,API intercom,GET,/api/v2/intercom,Site Admin,200,success,,,Admin API
+57,prod-sanity,API user subscriptions,GET,/api/v2/user_subscriptions,Site Admin,200,success,,,Admin API
+58,prod-sanity,API reporting dashboard filters,GET,/api/v2/reporting/dashboard_filters,Site Admin,200,success,,,Admin API
+59,prod-sanity,API reporting contribution tags,GET,/api/v2/reporting/dashboards/contribution_tags,Site Admin,200,success,,,Admin API
+60,prod-sanity,API reporting contributions location,GET,/api/v2/reporting/dashboards/contributions_location,Site Admin,200,success,,,Admin API
+61,prod-sanity,API reporting top performing tools,GET,/api/v2/reporting/dashboards/top_performing_tools,Site Admin,200,success,,,Admin API
+62,prod-sanity,Admin dashboard,GET,/adm,Site Admin,200,success,,,Admin Pages
+63,prod-sanity,Admin dashboard page,GET,/adm/dashboard,Site Admin,200,success,,,Admin Pages
+64,prod-sanity,Admin projects,GET,/adm/projects,Site Admin,200,success,,,Admin Pages
+65,prod-sanity,Admin archived projects,GET,/adm/projects/archived,Site Admin,200,success,,,Admin Pages
+66,prod-sanity,Admin draft projects,GET,/adm/projects/draft,Site Admin,200,success,,,Admin Pages
+67,prod-sanity,Admin users,GET,/adm/users,Site Admin,200,success,,,Admin Pages
+68,prod-sanity,Admin participants,GET,/adm/participants,Site Admin,200,success,,,Admin Pages
+69,prod-sanity,Admin registered participants,GET,/adm/participants/registered,Site Admin,200,success,,,Admin Pages
+70,prod-sanity,Admin pending participants,GET,/adm/participants/pending,Site Admin,200,success,,,Admin Pages
+71,prod-sanity,Admin settings,GET,/adm/settings,Site Admin,200,success,,,Admin Pages
+72,prod-sanity,Admin reports,GET,/adm/reports,Site Admin,200,success,,,Admin Pages
+73,prod-sanity,Admin reports: registrations,GET,/adm/reports/registrations,Site Admin,200,success,,,Admin Pages
+74,prod-sanity,Admin reports: contributions,GET,/adm/reports/contributions,Site Admin,200,success,,,Admin Pages
+75,prod-sanity,Admin reports: visitors,GET,/adm/reports/visitors,Site Admin,200,success,,,Admin Pages
+76,prod-sanity,Admin reports: engagement,GET,/adm/reports/engagement,Site Admin,200,success,,,Admin Pages
+77,prod-sanity,Admin moderation,GET,/adm/moderation,Site Admin,200,success,,,Admin Pages
+78,prod-sanity,Admin moderation: comments,GET,/adm/moderation/comments,Site Admin,200,success,,,Admin Pages
+79,prod-sanity,Admin moderation: submissions,GET,/adm/moderation/submissions,Site Admin,200,success,,,Admin Pages
+80,prod-sanity,Admin engagement,GET,/adm/engagement,Site Admin,200,success,,,Admin Pages
+81,prod-sanity,Admin analytics,GET,/adm/analytics,Site Admin,200,success,,,Admin Pages
+82,prod-sanity,Admin analytics: visitors,GET,/adm/analytics/visitors,Site Admin,200,success,,,Admin Pages
+83,prod-sanity,Admin analytics: engagement,GET,/adm/analytics/engagement,Site Admin,200,success,,,Admin Pages
+84,prod-sanity,Admin analytics: demographics,GET,/adm/analytics/demographics,Site Admin,200,success,,,Admin Pages
+85,prod-sanity,Admin integrations,GET,/adm/integrations,Site Admin,200,success,,,Admin Pages
+86,prod-sanity,Admin emails,GET,/adm/emails,Site Admin,200,success,,,Admin Pages
+87,prod-sanity,Admin email templates,GET,/adm/emails/templates,Site Admin,200,success,,,Admin Pages
+88,prod-sanity,Admin sent emails,GET,/adm/emails/sent,Site Admin,200,success,,,Admin Pages
+89,prod-sanity,Admin themes,GET,/adm/themes,Site Admin,200,success,,,Admin Pages
+90,prod-sanity,Admin permissions,GET,/adm/permissions,Site Admin,200,success,,,Admin Pages
+91,prod-sanity,Admin activity,GET,/adm/activity,Site Admin,200,success,,,Admin Pages
+92,prod-sanity,Admin site settings,GET,/adm/site,Site Admin,200,success,,,Admin Pages
+93,prod-sanity,Admin site config,GET,/adm/site/settings,Site Admin,200,success,,,Admin Pages
+94,prod-sanity,Admin site navigation,GET,/adm/site/navigation,Site Admin,200,success,,,Admin Pages
+95,prod-sanity,Admin site custom pages,GET,/adm/site/custom_pages,Site Admin,200,success,,,Admin Pages
+96,prod-sanity,Admin site SSO,GET,/adm/site/sso,Site Admin,200,success,,,Admin Pages
+97,prod-sanity,Admin site API keys,GET,/adm/site/api_keys,Site Admin,200,success,,,Admin Pages
+98,prod-sanity,Admin site webhooks,GET,/adm/site/webhooks,Site Admin,200,success,,,Admin Pages
+99,prod-sanity,Admin site custom domain,GET,/adm/site/custom_domain,Site Admin,200,success,,,Admin Pages
+100,prod-sanity,Admin site custom CSS,GET,/adm/site/custom_css,Site Admin,200,success,,,Admin Pages
+101,prod-sanity,Admin branding,GET,/adm/branding,Site Admin,200,success,,,Admin Pages
+102,prod-sanity,Admin project detail,GET,/adm/projects/{projectSlug},Site Admin,200,success,,,Admin Pages
+103,prod-sanity,Admin project settings,GET,/adm/projects/{projectSlug}/settings,Site Admin,200,success,,,Admin Pages
+104,prod-sanity,Legacy project admin,GET,/admin/projects/{projectSlug},Site Admin,200,success,,,Admin Pages
+105,prod-sanity,Legacy site settings,GET,/admin/sites/settings,Site Admin,200,success,,,Admin Pages
+106,prod-sanity,Legacy site editor (home page),GET,/admin/sites/editors/home-page,Site Admin,200,success,,,Admin Pages
+107,prod-sanity,Legacy administrators,GET,/admin/people/administrators,Site Admin,200,success,,,Admin Pages
+108,prod-sanity,Legacy newsletters,GET,/admin/newsletters,Site Admin,200,success,,,Admin Pages
+109,prod-sanity,Legacy marketplace,GET,/admin/marketplace,Site Admin,200,success,,,Admin Pages
+110,prod-sanity,Legacy site hubs,GET,/admin/site_hubs,Site Admin,200,success,,,Admin Pages
+111,prod-sanity,Admin heartbeat,GET,/admin/api/auth/heartbeat,Site Admin,200,success,,,Admin Pages
+112,prod-sanity,Admin data exports,GET,/adm/data_exports,Site Admin,200,success,,,Admin Pages
+113,prod-sanity,Admin imports,GET,/adm/imports,Site Admin,200,success,,,Admin Pages
+114,prod-sanity,Admin audit log,GET,/adm/audit_log,Site Admin,200,success,,,Admin Pages
+115,prod-sanity,Homepage perf,GET,/,None,200,success,5000ms,,Public Pages
+116,prod-sanity,Login page perf,GET,/login,None,200,success,5000ms,,Public Pages
+117,prod-sanity,Project page perf,GET,/{projectSlug},None,200,success,5000ms,,Public Project
+118,prod-sanity,API projects perf,GET,/api/v2/projects,Site Admin,200,success,10000ms,,Admin API
+119,prod-sanity,API site perf,GET,/api/v2/site,Site Admin,200,success,5000ms,,Admin API
+120,prod-sanity,Admin dashboard perf,GET,/adm,Site Admin,200,success,5000ms,,Admin Pages
+121,prod-sanity,Admin projects perf,GET,/adm/projects,Site Admin,200,success,5000ms,,Admin Pages
+122,prod-sanity,Reporting dashboard perf,GET,/api/v2/reporting/dashboard_filters,Site Admin,200,success,8000ms,,Admin API
+123,prod-sanity,API site returns JSON,GET,/api/v2/site,Site Admin,200,success,,"Contains: ""name""",Admin API
+124,prod-sanity,API current user has email,GET,/api/v2/users/current,Site Admin,200,success,,"Contains: ""email""",Admin API
+125,prod-sanity,API features returns JSON,GET,/api/v2/features,Site Admin,200,success,,"Contains: ""features""",Admin API
+126,prod-sanity,API theme returns JSON,GET,/api/v2/theme,Site Admin,200,success,,"Contains: ""color",Admin API
+127,prod-sanity,API projects returns list,GET,/api/v2/projects,Site Admin,200,success,,"Contains: ""projects""",Admin API
+128,prod-sanity,Homepage contains HTML,GET,/,None,200,success,,Contains: <html,Public Pages
+129,prod-sanity,Login page has form,GET,/login,None,200,success,,Contains: password,Public Pages
+130,prod-sanity,Heartbeat is reachable,GET,/admin/api/auth/heartbeat,Site Admin,200,success,3000ms,,Admin Pages
+131,prod-sanity,Favicon loads,GET,/favicon.ico,None,200,success,3000ms,,Public Pages
+132,prod-sanity,Sitemap XML valid,GET,/sitemap.xml,None,200,success,,Contains: <?xml,Public Pages
+133,prod-sanity,JS bundle availability,GET,/packs/js/application.js,None,200|301|302|404,availability,,,Public Pages
+134,prod-sanity,Robots.txt availability,GET,/robots.txt,None,200|404,availability,,,Public Pages
+135,write-apis,PUT participant profile,PUT,/api/v2/users/current,Participant,200,success,,,Write API - Participant
+136,write-apis,PATCH participant profile,PATCH,/api/v2/users/current,Participant,200,success,,,Write API - Participant
+137,write-apis,PUT user profile,PUT,/api/v2/users/current,Site Admin,200,success,,,Write API - Site Admin
+138,write-apis,PUT site config,PUT,/api/v2/site,Site Admin,200,success,,,Write API - Site Admin
+139,write-apis,PUT site settings,PUT,/api/v2/settings,Site Admin,200,success,,,Write API - Site Admin
+140,write-apis,PUT theme,PUT,/api/v2/theme,Site Admin,200,success,,,Write API - Site Admin
+141,write-apis,PUT project,PUT,/api/v2/projects/{projectSlug},Site Admin,200,success,,,Write API - Site Admin
+142,write-apis,Reject publishing an already-published project,PUT,/api/v2/projects/{projectSlug}/publish,Site Admin,422,rejection,,,Write API - Site Admin
+143,write-apis,Reject invalid project archive request,PUT,/api/v2/projects/{projectSlug}/archive,Site Admin,422,rejection,,,Write API - Site Admin
+144,write-apis,Reject invalid reporting filter update,PUT,/api/v2/reporting/dashboard_filters,Site Admin,422,rejection,,,Write API - Site Admin
+145,write-apis,PATCH user profile,PATCH,/api/v2/users/current,Site Admin,200,success,,,Write API - Site Admin
+146,write-apis,PATCH site config,PATCH,/api/v2/site,Site Admin,200,success,,,Write API - Site Admin
+147,write-apis,PATCH site settings,PATCH,/api/v2/settings,Site Admin,200,success,,,Write API - Site Admin
+148,write-apis,PATCH theme,PATCH,/api/v2/theme,Site Admin,200,success,,,Write API - Site Admin
+149,write-apis,PATCH project,PATCH,/api/v2/projects/{projectSlug},Site Admin,200,success,,,Write API - Site Admin
+150,write-apis,PATCH heartbeat,PATCH,/admin/api/auth/heartbeat,Site Admin,200|204,success,,,Write API - Site Admin
+151,write-apis,POST password reset,POST,/users/password,None,200,success,,,Write API - None
+152,write-apis,Reject invalid registration,POST,/api/v2/registrations,None,422,rejection,,,Write API - None
+153,prod-write-validation,Reject invalid registration,POST,/api/v2/registrations,None,422,rejection,,,Write API - None
+154,prod-write-validation,Reject invalid project archive request,PUT,/api/v2/projects/{projectSlug}/archive,Site Admin,422,rejection,,,Write API - Site Admin
+155,prod-write-validation,Reject invalid reporting filter update,PUT,/api/v2/reporting/dashboard_filters,Site Admin,422,rejection,,,Write API - Site Admin

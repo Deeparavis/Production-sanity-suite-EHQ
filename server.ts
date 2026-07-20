@@ -4,6 +4,9 @@ import { spawn, ChildProcess } from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
+import { getEndpoints } from './src/config/endpoints';
+import { getProductionWriteEndpoints } from './src/config/productionWriteEndpoints';
+import { getWriteEndpoints } from './src/config/writeEndpoints';
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
@@ -25,6 +28,8 @@ app.use(express.static(path.join(PROJECT_ROOT, 'ui')));
 interface RunState {
   status: 'idle' | 'running' | 'completed' | 'failed';
   suite: string;
+  suiteId?: string;
+  count?: number;
   siteUrl?: string;
   startedAt?: string;
   finishedAt?: string;
@@ -35,17 +40,75 @@ interface RunState {
 let currentRun: RunState = { status: 'idle', suite: '', output: [] };
 let activeProcess: ChildProcess | null = null;
 
-const SUITES: Record<string, { label: string; command: string[] }> = {
-  all:       { label: 'All Tests',         command: ['npx', 'playwright', 'test'] },
-  endpoints: { label: 'Endpoint Checks',   command: ['npx', 'playwright', 'test', 'tests/05-endpoints.spec.ts'] },
-  login:     { label: 'Login Page',        command: ['npx', 'playwright', 'test', 'tests/01-login-page.spec.ts'] },
-  participant: { label: 'Participant Flows', command: ['npx', 'playwright', 'test', 'tests/02-participant-flows.spec.ts'] },
-  admin:     { label: 'Admin Flows',       command: ['npx', 'playwright', 'test', 'tests/03-admin-flows.spec.ts'] },
-  public:    { label: 'Public Site',       command: ['npx', 'playwright', 'test', 'tests/04-public-site.spec.ts'] },
+interface SuiteDefinition {
+  label: string;
+  command: string[];
+  count: number;
+  mode: 'read' | 'write' | 'rejection';
+}
+
+function countDeclaredTests(relativePath: string): number {
+  const source = fs.readFileSync(path.join(PROJECT_ROOT, relativePath), 'utf8');
+  return source.match(/^\s*test\s*\(/gm)?.length ?? 0;
+}
+
+const endpointCount = getEndpoints().length;
+const productionWriteCount = getProductionWriteEndpoints().length;
+const writeCount = getWriteEndpoints().length;
+const loginCount = countDeclaredTests('tests/01-login-page.spec.ts');
+const participantCount = countDeclaredTests('tests/02-participant-flows.spec.ts');
+const adminCount = countDeclaredTests('tests/03-admin-flows.spec.ts');
+const publicCount = countDeclaredTests('tests/04-public-site.spec.ts');
+
+const SUITES: Record<string, SuiteDefinition> = {
+  all: {
+    label: 'Production Sanity',
+    command: ['npx', 'playwright', 'test', '--grep', '@prod-sanity'],
+    count: endpointCount + loginCount + participantCount + adminCount + publicCount,
+    mode: 'read',
+  },
+  write: {
+    label: 'Write API Checks',
+    command: ['npx', 'playwright', 'test', 'tests/06-write-apis.spec.ts', '--grep', '@write-apis'],
+    count: writeCount,
+    mode: 'write',
+  },
 };
 
+function isNonProductionSite(): boolean {
+  const hostname = new URL(process.env.EHQ_PROD_SITE_URL ?? 'http://invalid').hostname;
+  return /replica|preprod|staging|localhost/i.test(hostname);
+}
+
+function resolveSuite(id: string): SuiteDefinition | undefined {
+  const suite = SUITES[id];
+  if (!suite || id !== 'write' || isNonProductionSite()) return suite;
+  return {
+    label: 'Write API Checks (production-safe rejection only)',
+    command: [
+      'npx',
+      'playwright',
+      'test',
+      'tests/07-production-write-validation.spec.ts',
+      '--grep',
+      '@prod-write-validation',
+    ],
+    count: productionWriteCount,
+    mode: 'rejection',
+  };
+}
+
 app.get('/api/suites', (_req, res) => {
-  const suites = Object.entries(SUITES).map(([id, s]) => ({ id, label: s.label }));
+  const suites = Object.keys(SUITES).map((id) => {
+    const suite = resolveSuite(id)!;
+    return {
+      id,
+      label: suite.label,
+      count: suite.count,
+      write: suite.mode !== 'read',
+      productionSafe: suite.mode === 'rejection',
+    };
+  });
   res.json(suites);
 });
 
@@ -104,7 +167,7 @@ app.post('/api/configure', (req, res) => {
 
 app.post('/api/run/:suite', (req, res) => {
   const suiteId = req.params.suite;
-  const suite = SUITES[suiteId];
+  const suite = resolveSuite(suiteId);
   if (!suite) {
     res.status(400).json({ error: `Unknown suite: ${suiteId}` });
     return;
@@ -118,15 +181,26 @@ app.post('/api/run/:suite', (req, res) => {
   currentRun = {
     status: 'running',
     suite: suite.label,
+    suiteId,
+    count: suite.count,
     siteUrl: process.env.EHQ_PROD_SITE_URL,
     startedAt: new Date().toISOString(),
     output: [],
   };
 
   const [cmd, ...args] = suite.command;
+  const runEnv: NodeJS.ProcessEnv = {
+    ...process.env,
+    FORCE_COLOR: '0',
+    NO_COLOR: '1',
+  };
+  // Never inherit either opt-in mode from .env.
+  runEnv.ALLOW_WRITE_TESTS = suite.mode === 'write' ? 'true' : 'false';
+  runEnv.ALLOW_PROD_WRITE_VALIDATION = suite.mode === 'rejection' ? 'true' : 'false';
+
   const child = spawn(cmd, args, {
     cwd: PROJECT_ROOT,
-    env: { ...process.env, FORCE_COLOR: '0', NO_COLOR: '1' },
+    env: runEnv,
     shell: true,
   });
 
@@ -150,7 +224,12 @@ app.post('/api/run/:suite', (req, res) => {
     saveRunToHistory();
   });
 
-  res.json({ message: `Started: ${suite.label}`, suite: suiteId });
+  res.json({
+    message: `Started: ${suite.label}`,
+    suite: suite.label,
+    suiteId,
+    count: suite.count,
+  });
 });
 
 app.post('/api/stop', (_req, res) => {
@@ -170,6 +249,8 @@ app.get('/api/status', (_req, res) => {
   res.json({
     status: currentRun.status,
     suite: currentRun.suite,
+    suiteId: currentRun.suiteId,
+    count: currentRun.count,
     siteUrl: currentRun.siteUrl,
     startedAt: currentRun.startedAt,
     finishedAt: currentRun.finishedAt,

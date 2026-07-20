@@ -6,9 +6,13 @@
     "test": "playwright test",
     "test:sanity": "playwright test",
     "test:endpoints": "playwright test tests/05-endpoints.spec.ts",
+    "test:write": "playwright test tests/06-write-apis.spec.ts --grep @write-apis",
+    "test:write:production": "playwright test tests/07-production-write-validation.spec.ts --grep @prod-write-validation",
     "test:login": "playwright test tests/01-login-page.spec.ts",
     "test:headed": "playwright test --headed --workers=1",
     "typecheck": "tsc --noEmit",
+    "docs:generate": "tsx scripts/generate-test-mappings.ts",
+    "docs:check": "tsx scripts/generate-test-mappings.ts --check",
     "ui": "npx tsx server.ts",
     "ui:dev": "npx tsx watch server.ts"
   },

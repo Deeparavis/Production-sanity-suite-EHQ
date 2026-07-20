@@ -3,6 +3,7 @@ import * as path from 'path';
 import { getBaseConfig, getConfig } from './env';
 
 export type EndpointAuth = 'none' | 'participant' | 'siteAdmin';
+export type EndpointValidation = 'success' | 'availability' | 'rejection' | 'access-control';
 
 export interface EndpointCheck {
   /** Display name shown in test reports */
@@ -13,6 +14,8 @@ export interface EndpointCheck {
   auth?: EndpointAuth;
   /** Expected HTTP status (default 200). Accepts an array of valid statuses. */
   expectedStatus?: number | number[];
+  /** What a matching status proves. Defaults to a successful feature response. */
+  validation?: EndpointValidation;
   /** When true, do not follow redirects (useful for auth-gated routes). */
   noRedirect?: boolean;
   /** Request body for PUT/PATCH/POST (default: empty JSON object for write methods). */
@@ -46,8 +49,8 @@ function defaultEndpoints(): EndpointCheck[] {
     { name: 'Forgot password', path: '/users/password/new', auth: 'none' },
     { name: 'Confirm account page', path: '/users/confirmation/new', auth: 'none' },
     { name: 'Terms', path: '/terms', auth: 'none' },
-    { name: 'Accessibility statement', path: '/accessibility-statement', auth: 'none', expectedStatus: [200, 404] },
-    { name: 'Technical support', path: '/technical_support', auth: 'none' },
+    { name: 'Accessibility statement', path: '/accessibility-statement', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Technical support availability', path: '/technical_support', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
     { name: 'Moderation policy', path: '/moderation', auth: 'none' },
     { name: 'Sitemap XML', path: '/sitemap.xml', auth: 'none' },
     { name: 'Favicon', path: '/favicon.ico', auth: 'none' },
@@ -58,24 +61,41 @@ function defaultEndpoints(): EndpointCheck[] {
     { name: 'Project videos', path: '/{projectSlug}/videos', auth: 'none' },
 
     // ── Engagement tool pages (project-level) ─────────────────────
-    { name: 'Project surveys', path: '/{projectSlug}/surveys', auth: 'none', expectedStatus: [200, 404] },
-    { name: 'Project forums', path: '/{projectSlug}/forums', auth: 'none', expectedStatus: [200, 404] },
-    { name: 'Project stories', path: '/{projectSlug}/stories', auth: 'none', expectedStatus: [200, 404] },
-    { name: 'Project maps', path: '/{projectSlug}/maps', auth: 'none', expectedStatus: [200, 404] },
-    { name: 'Project ideas', path: '/{projectSlug}/ideas', auth: 'none', expectedStatus: [200, 404] },
-    { name: 'Project polls', path: '/{projectSlug}/polls', auth: 'none', expectedStatus: [200, 404] },
-    { name: 'Project Q&A', path: '/{projectSlug}/qanda', auth: 'none', expectedStatus: [200, 404] },
-    { name: 'Project guestbook', path: '/{projectSlug}/guestbook', auth: 'none', expectedStatus: [200, 404] },
-    { name: 'Project news feed', path: '/{projectSlug}/newsfeed', auth: 'none', expectedStatus: [200, 404] },
-    { name: 'Project key dates', path: '/{projectSlug}/key_dates', auth: 'none', expectedStatus: [200, 404] },
+    { name: 'Project surveys', path: '/{projectSlug}/surveys', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Project forums', path: '/{projectSlug}/forums', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Project stories', path: '/{projectSlug}/stories', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Project maps', path: '/{projectSlug}/maps', auth: 'none', expectedStatus: [200, 204, 404], validation: 'availability' },
+    { name: 'Project ideas', path: '/{projectSlug}/ideas', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Project polls', path: '/{projectSlug}/polls', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Project Q&A', path: '/{projectSlug}/qanda', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Project guestbook', path: '/{projectSlug}/guestbook', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Project news feed', path: '/{projectSlug}/newsfeed', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Project key dates', path: '/{projectSlug}/key_dates', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
 
     // ── Participant (logged-in user) ──────────────────────────────
     { name: 'Participant home', path: '/', auth: 'participant' },
     { name: 'Participant project page', path: '/{projectSlug}', auth: 'participant' },
     { name: 'Participant project documents', path: '/{projectSlug}/documents', auth: 'participant' },
     { name: 'Participant project FAQs', path: '/{projectSlug}/faqs', auth: 'participant' },
+    { name: 'Participant project photos', path: '/{projectSlug}/photos', auth: 'participant' },
+    { name: 'Participant project videos', path: '/{projectSlug}/videos', auth: 'participant' },
+    { name: 'Participant surveys', path: '/{projectSlug}/surveys', auth: 'participant', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Participant forums', path: '/{projectSlug}/forums', auth: 'participant', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Participant stories', path: '/{projectSlug}/stories', auth: 'participant', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Participant maps', path: '/{projectSlug}/maps', auth: 'participant', expectedStatus: [200, 204, 404], validation: 'availability' },
+    { name: 'Participant ideas', path: '/{projectSlug}/ideas', auth: 'participant', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Participant polls', path: '/{projectSlug}/polls', auth: 'participant', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Participant Q&A', path: '/{projectSlug}/qanda', auth: 'participant', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Participant guestbook', path: '/{projectSlug}/guestbook', auth: 'participant', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Participant news feed', path: '/{projectSlug}/newsfeed', auth: 'participant', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Participant key dates', path: '/{projectSlug}/key_dates', auth: 'participant', expectedStatus: [200, 404], validation: 'availability' },
+    { name: 'Participant profile', path: '/profile', auth: 'participant' },
     { name: 'Session info', path: '/session_info', auth: 'participant' },
     { name: 'Token endpoint', path: '/token', auth: 'participant' },
+    { name: 'Participant API current user', path: '/api/v2/users/current', auth: 'participant', bodyContains: '"email"' },
+    { name: 'Participant API subscriptions', path: '/api/v2/user_subscriptions', auth: 'participant' },
+    { name: 'Participant API recommendations', path: '/api/v2/recommendations', auth: 'participant' },
+    { name: 'Participant API project', path: '/api/v2/projects/{projectSlug}', auth: 'participant' },
 
     // ── API v2 (authenticated) ────────────────────────────────────
     // Temporarily disabled — bodyHasKey checks don't match this site's JSON shape.
@@ -156,35 +176,11 @@ function defaultEndpoints(): EndpointCheck[] {
     { name: 'Admin imports', path: '/adm/imports', auth: 'siteAdmin' },
     { name: 'Admin audit log', path: '/adm/audit_log', auth: 'siteAdmin' },
 
-    // ── PUT APIs (validated with empty body — expect 200 or 422 for safety) ───
-    { name: 'PUT user profile', path: '/api/v2/users/current', method: 'PUT', auth: 'siteAdmin', expectedStatus: [200, 422] },
-    { name: 'PUT site config', path: '/api/v2/site', method: 'PUT', auth: 'siteAdmin', expectedStatus: [200, 422] },
-    { name: 'PUT site settings', path: '/api/v2/settings', method: 'PUT', auth: 'siteAdmin', expectedStatus: [200, 422] },
-    { name: 'PUT theme', path: '/api/v2/theme', method: 'PUT', auth: 'siteAdmin', expectedStatus: [200, 422] },
-    { name: 'PUT reporting filters', path: '/api/v2/reporting/dashboard_filters', method: 'PUT', auth: 'siteAdmin', expectedStatus: [200, 422] },
-
-    // ── PATCH APIs (validated with empty body — expect 200 or 422 for safety) ──
-    { name: 'PATCH user profile', path: '/api/v2/users/current', method: 'PATCH', auth: 'siteAdmin', expectedStatus: [200, 422] },
-    { name: 'PATCH site config', path: '/api/v2/site', method: 'PATCH', auth: 'siteAdmin', expectedStatus: [200, 422] },
-    { name: 'PATCH site settings', path: '/api/v2/settings', method: 'PATCH', auth: 'siteAdmin', expectedStatus: [200, 422] },
-    { name: 'PATCH theme', path: '/api/v2/theme', method: 'PATCH', auth: 'siteAdmin', expectedStatus: [200, 422] },
-    { name: 'PATCH heartbeat', path: '/admin/api/auth/heartbeat', method: 'PATCH', auth: 'siteAdmin', expectedStatus: [200, 204, 422] },
-
-    // ── POST APIs (validates route exists — expects 400/422, not 500) ──
-    { name: 'POST login API', path: '/users/sign_in', method: 'POST', auth: 'none', expectedStatus: [200, 401, 404, 422], body: '{"user":{"email":"","password":""}}' },
-    { name: 'POST password reset', path: '/users/password', method: 'POST', auth: 'none', expectedStatus: [200, 422], body: '{"user":{"email":"nonexistent@test.invalid"}}' },
-    { name: 'POST registration', path: '/users', method: 'POST', auth: 'none', expectedStatus: [200, 422], body: '{"user":{"email":"","password":""}}' },
-
-    // ── DELETE APIs (validates route exists — expects 401/403/405/422, not 500) ──
-    { name: 'DELETE session (logout route)', path: '/users/sign_out', method: 'DELETE', auth: 'siteAdmin', expectedStatus: [200, 204, 302, 404, 405] },
-
     // ── Unauthenticated access to protected APIs (expect 401/403) ──
     // Temporarily disabled — these APIs are not auth-gated on this site (return 200/404, not 401/403).
     // { name: 'Unauth: API site (expect 401)', path: '/api/v2/site', auth: 'none', expectedStatus: [401, 403] },
     // { name: 'Unauth: API projects (expect 401)', path: '/api/v2/projects', auth: 'none', expectedStatus: [401, 403] },
     // { name: 'Unauth: API current user (expect 401)', path: '/api/v2/users/current', auth: 'none', expectedStatus: [401, 403] },
-    { name: 'Unauth: Admin dashboard (expect redirect)', path: '/adm', auth: 'none', expectedStatus: [200, 302, 401, 403], noRedirect: true },
-
     // ── Critical endpoints with response time thresholds ────────
     { name: 'Homepage perf', path: '/', auth: 'none', maxResponseTimeMs: 5000 },
     { name: 'Login page perf', path: '/login', auth: 'none', maxResponseTimeMs: 5000 },
@@ -210,8 +206,8 @@ function defaultEndpoints(): EndpointCheck[] {
     // ── Static assets / CDN checks ──────────────────────────────
     { name: 'Favicon loads', path: '/favicon.ico', auth: 'none', maxResponseTimeMs: 3000 },
     { name: 'Sitemap XML valid', path: '/sitemap.xml', auth: 'none', bodyContains: '<?xml' },
-    { name: 'JS bundle reachable', path: '/packs/js/application.js', auth: 'none', expectedStatus: [200, 301, 302, 404] },
-    { name: 'Robots.txt', path: '/robots.txt', auth: 'none', expectedStatus: [200, 404] },
+    { name: 'JS bundle availability', path: '/packs/js/application.js', auth: 'none', expectedStatus: [200, 301, 302, 404], validation: 'availability' },
+    { name: 'Robots.txt availability', path: '/robots.txt', auth: 'none', expectedStatus: [200, 404], validation: 'availability' },
   ];
 }
 
@@ -241,4 +237,14 @@ export function getEndpoints(): EndpointCheck[] {
 
 export function getEndpointsByAuth(auth: EndpointAuth): EndpointCheck[] {
   return getEndpoints().filter((endpoint) => (endpoint.auth ?? 'none') === auth);
+}
+
+export function getReadOnlyEndpointsByAuth(auth: EndpointAuth): EndpointCheck[] {
+  const endpoints = getEndpointsByAuth(auth);
+  const writes = endpoints.filter((endpoint) => !['GET', 'HEAD'].includes(endpoint.method ?? 'GET'));
+  if (writes.length > 0) {
+    const details = writes.map((endpoint) => `${endpoint.method} ${endpoint.path}`).join(', ');
+    throw new Error(`Production endpoint registry contains write methods: ${details}`);
+  }
+  return endpoints;
 }

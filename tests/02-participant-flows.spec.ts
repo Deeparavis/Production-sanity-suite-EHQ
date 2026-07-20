@@ -45,4 +45,59 @@ test.describe('Participant flows', () => {
 
     await ctx.close();
   });
+
+  test('participant can access enabled engagement tools and an action form', { tag: ['@prod-sanity'] }, async ({ browser }) => {
+    const ctx = await newSanityContext(browser);
+    const page = await ctx.newPage();
+    const loginPage = new LoginPage(page, config);
+    const toolPaths = [
+      'surveys',
+      'forums',
+      'stories',
+      'maps',
+      'ideas',
+      'polls',
+      'qanda',
+      'guestbook',
+      'newsfeed',
+      'key_dates',
+    ];
+
+    await loginPage.loginAs(config.participant.username, config.participant.password);
+
+    const enabledTools: string[] = [];
+    const actionForms: string[] = [];
+    for (const toolPath of toolPaths) {
+      const response = await page.goto(
+        `${config.siteUrl}/${config.projectSlug}/${toolPath}`,
+        { waitUntil: 'domcontentloaded', timeout: 60_000 }
+      );
+      if (response?.status() !== 200 || new URL(page.url()).pathname === '/404') {
+        continue;
+      }
+
+      enabledTools.push(toolPath);
+      const sameSitePostActions = await page.locator('form').evaluateAll(
+        (forms, siteUrl) =>
+          forms
+            .map((form) => form as HTMLFormElement)
+            .filter(
+              (form) =>
+                form.method.toUpperCase() === 'POST' &&
+                form.action.startsWith(siteUrl as string)
+            )
+            .map((form) => form.action),
+        config.siteUrl
+      );
+      actionForms.push(...sameSitePostActions);
+    }
+
+    expect(enabledTools, 'No engagement tool is enabled for the configured project').not.toHaveLength(0);
+    expect(
+      actionForms,
+      `Enabled tools (${enabledTools.join(', ')}) expose no participant action form`
+    ).not.toHaveLength(0);
+
+    await ctx.close();
+  });
 });
