@@ -15,6 +15,25 @@ export async function assertEndpointReturnsExpectedStatus(
   const method = endpoint.method ?? 'GET';
   const expectedStatus = endpoint.expectedStatus ?? 200;
   const validStatuses = Array.isArray(expectedStatus) ? expectedStatus : [expectedStatus];
+  const validation = endpoint.validation ?? 'success';
+
+  if (validation === 'success' && validStatuses.some((status) => status >= 400)) {
+    throw new Error(`${endpoint.name} is a success check but accepts an error status`);
+  }
+  if (
+    validation === 'rejection' &&
+    validStatuses.some((status) => status < 400 || status >= 500)
+  ) {
+    throw new Error(`${endpoint.name} is a rejection check but accepts a non-4xx status`);
+  }
+  if (
+    validation === 'access-control' &&
+    validStatuses.some(
+      (status) => !((status >= 300 && status < 400) || status === 401 || status === 403)
+    )
+  ) {
+    throw new Error(`${endpoint.name} has an invalid access-control status`);
+  }
 
   const fetchOptions: Parameters<APIRequestContext['fetch']>[1] = {
     method,
@@ -32,11 +51,13 @@ export async function assertEndpointReturnsExpectedStatus(
   const response = await request.fetch(url, fetchOptions);
   const responseTimeMs = Date.now() - startTime;
   const actual = response.status();
+  const needsBody = Boolean(endpoint.bodyContains || endpoint.bodyHasKey);
+  const responseBody = needsBody ? await response.text() : undefined;
 
   // Status code assertion
   expect(
     validStatuses.includes(actual),
-    `${method} ${url} (${endpoint.name}) expected one of [${validStatuses.join(', ')}], got ${actual}`
+    `${method} ${url} (${endpoint.name}, ${validation}) expected one of [${validStatuses.join(', ')}], got ${actual}`
   ).toBe(true);
 
   // Response time assertion
@@ -49,7 +70,7 @@ export async function assertEndpointReturnsExpectedStatus(
 
   // Response body assertions
   if (endpoint.bodyContains || endpoint.bodyHasKey) {
-    const body = await response.text();
+    const body = responseBody ?? '';
 
     if (endpoint.bodyContains) {
       const pattern = endpoint.bodyContains;

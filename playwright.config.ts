@@ -10,7 +10,12 @@ const storageStatePath = path.resolve(__dirname, 'storage-state.json');
 export default defineConfig({
   globalSetup: require.resolve('./global-setup'),
   testDir: './tests',
-  grep: /@prod-sanity/,
+  grep:
+    process.env.ALLOW_PROD_WRITE_VALIDATION === 'true'
+      ? /@prod-write-validation/
+      : process.env.ALLOW_WRITE_TESTS === 'true'
+        ? /@write-apis/
+        : /@prod-sanity/,
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

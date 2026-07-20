@@ -22,6 +22,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate code and generated mappings
+        run: npm run typecheck && npm run docs:check
+
       - name: Install Playwright browsers
         run: npx playwright install chromium --with-deps
 

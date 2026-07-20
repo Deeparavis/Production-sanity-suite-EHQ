@@ -1,6 +1,6 @@
 import { test, APIRequestContext } from '@playwright/test';
 import { getConfig } from '../src/config/env';
-import { EndpointCheck, getEndpointsByAuth } from '../src/config/endpoints';
+import { EndpointCheck, getReadOnlyEndpointsByAuth } from '../src/config/endpoints';
 import { createAuthenticatedRequest } from '../src/helpers/authenticatedRequest';
 import { assertEndpointReturnsExpectedStatus } from '../src/helpers/endpointCheck';
 
@@ -12,6 +12,7 @@ function describeValidation(ep: EndpointCheck): string {
   const status = ep.expectedStatus ?? 200;
   const statusStr = Array.isArray(status) ? status.join('|') : String(status);
 
+  checks.push(`proves=${ep.validation ?? 'success'}`);
   checks.push(`status=${statusStr}`);
 
   if (ep.maxResponseTimeMs) {
@@ -32,7 +33,7 @@ function describeValidation(ep: EndpointCheck): string {
 
 test.describe('Endpoint health checks', () => {
   test.describe('Public endpoints', () => {
-    for (const endpoint of getEndpointsByAuth('none')) {
+    for (const endpoint of getReadOnlyEndpointsByAuth('none')) {
       test(describeValidation(endpoint), {
         tag: ['@prod-sanity', '@endpoints'],
       }, async ({ request }) => {
@@ -57,7 +58,7 @@ test.describe('Endpoint health checks', () => {
       await authRequest.dispose();
     });
 
-    for (const endpoint of getEndpointsByAuth('participant')) {
+    for (const endpoint of getReadOnlyEndpointsByAuth('participant')) {
       test(describeValidation(endpoint), {
         tag: ['@prod-sanity', '@endpoints'],
       }, async () => {
@@ -82,7 +83,7 @@ test.describe('Endpoint health checks', () => {
       await authRequest.dispose();
     });
 
-    for (const endpoint of getEndpointsByAuth('siteAdmin')) {
+    for (const endpoint of getReadOnlyEndpointsByAuth('siteAdmin')) {
       test(describeValidation(endpoint), {
         tag: ['@prod-sanity', '@endpoints'],
       }, async () => {

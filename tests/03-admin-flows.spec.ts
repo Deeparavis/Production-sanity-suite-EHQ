@@ -7,6 +7,30 @@ import { LoginPage } from '../src/pages/loginPage';
 const config = getConfig();
 
 test.describe('Admin flows', () => {
+  test('unauthenticated visitor cannot access the admin dashboard', { tag: ['@prod-sanity'] }, async ({ browser }) => {
+    const ctx = await browser.newContext();
+    const page = await ctx.newPage();
+
+    await page.goto(`${config.siteUrl}/adm`, {
+      waitUntil: 'domcontentloaded',
+      timeout: 60_000,
+    });
+
+    await expect
+      .poll(
+        async () =>
+          /login|sign_in/.test(new URL(page.url()).pathname) ||
+          page.locator(L.usernameInput).first().isVisible().catch(() => false),
+        {
+          message: 'Unauthenticated admin SPA did not redirect to or render login',
+          timeout: 30_000,
+        }
+      )
+      .toBe(true);
+
+    await ctx.close();
+  });
+
   test('site admin can login and reach dashboard', { tag: ['@prod-sanity'] }, async ({ browser }) => {
     const ctx = await newSanityContext(browser);
     const page = await ctx.newPage();
