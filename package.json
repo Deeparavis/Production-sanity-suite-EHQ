@@ -8,6 +8,7 @@
     "test:endpoints": "playwright test tests/05-endpoints.spec.ts",
     "test:login": "playwright test tests/01-login-page.spec.ts",
     "test:headed": "playwright test --headed --workers=1",
+    "test:coverage-local": "playwright test tests/06-module-coverage.spec.ts tests/07-ui-app.spec.ts tests/08-ui-server-api.spec.ts",
     "typecheck": "tsc --noEmit",
     "ui": "npx tsx server.ts",
     "ui:dev": "npx tsx watch server.ts"
