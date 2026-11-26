@@ -129,7 +129,8 @@ test.describe('Module coverage', () => {
   });
 
   test('env config throws when required values are missing @prod-sanity', async () => {
-    delete process.env.EHQ_PROD_SITE_URL;
+    // Empty string is treated as missing and won't be overwritten by dotenv on import.
+    process.env.EHQ_PROD_SITE_URL = '';
     const env = loadFreshEnvModule();
     expect(() => env.getBaseConfig()).toThrow(/Required env var EHQ_PROD_SITE_URL/);
   });
