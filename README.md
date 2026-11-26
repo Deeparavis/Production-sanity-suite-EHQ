@@ -64,6 +64,74 @@ npx playwright install chromium
 npm run typecheck
 ```
 
+## Postman MCP integration
+
+This repo includes project-local Cursor MCP config at `.cursor/mcp.json` with a `postman` server so you can add additional validation suites from Postman collections/workspaces.
+
+Set these environment variables in your shell before launching Cursor:
+
+```bash
+export POSTMAN_API_KEY="your-postman-api-key"
+export POSTMAN_WORKSPACE_ID="your-workspace-id"  # optional but recommended
+```
+
+Then restart Cursor in this project. You should see the `postman` MCP server available for agent actions.
+
+### Postman collection-driven validation suite
+
+You can run endpoint checks directly from a Postman collection using:
+
+```bash
+npm run test:postman-endpoints
+```
+
+Setup:
+
+1. Copy `postman-collection.example.json` to `postman-collection.json` (or point to any collection file).
+2. Optionally set `POSTMAN_COLLECTION_PATH` in `.env` if your file path is different.
+3. Add metadata tokens in request/folder names to control checks:
+   - `[auth:none]`, `[auth:participant]`, `[auth:siteAdmin]` (default: `none`)
+   - `[status:200]` or `[status:200,302]` (default: `200`)
+   - `[maxMs:5000]` for response-time assertions
+   - `[contains:<html]` for body-contains assertions
+
+Notes:
+
+- Only `GET` and `HEAD` requests are included by default for production safety.
+- `{{baseUrl}}` prefix is supported and stripped to create relative endpoint checks.
+
+### Export from Postman API to local suite file
+
+You can auto-export a Postman collection into this suite's `postman-collection.json`:
+
+```bash
+npm run postman:export
+```
+
+Preview export selection without writing a file:
+
+```bash
+npm run postman:export:dry-run
+```
+
+Required env:
+
+- `POSTMAN_API_KEY`
+- `POSTMAN_SOURCE_COLLECTION_ID`
+
+Optional export controls:
+
+- `POSTMAN_EXPORT_INCLUDE_FOLDERS` (comma-separated folder names)
+- `POSTMAN_EXPORT_DEFAULT_AUTH` (default: `none`)
+- `POSTMAN_EXPORT_DEFAULT_STATUS` (default: `200`)
+- `POSTMAN_EXPORT_OUTPUT` (default: `postman-collection.json`)
+
+Export + execute in one step:
+
+```bash
+npm run postman:export-and-test
+```
+
 ## Run locally
 
 ```bash

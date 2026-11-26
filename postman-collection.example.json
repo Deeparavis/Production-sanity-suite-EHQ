@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "EHQ Sanity Collection (Example)",
+    "_postman_id": "00000000-0000-0000-0000-000000000000",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Homepage [auth:none] [status:200]",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/"
+          }
+        },
+        {
+          "name": "Published project [auth:none] [status:200,404]",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/{{projectSlug}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Site Admin",
+      "item": [
+        {
+          "name": "Admin dashboard [auth:siteAdmin] [status:200,302] [maxMs:5000]",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/adm"
+          }
+        }
+      ]
+    }
+  ]
+}
