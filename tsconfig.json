@@ -11,5 +11,5 @@
     "outDir": "dist",
     "rootDir": "."
   },
-  "include": ["src/**/*", "tests/**/*", "playwright.config.ts", "server.ts"]
+  "include": ["src/**/*", "tests/**/*", "scripts/**/*", "playwright.config.ts", "server.ts"]
 }
